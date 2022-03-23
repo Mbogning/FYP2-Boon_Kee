@@ -21,6 +21,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'bod',
+        'phone',
+        'gender',
+        'status'
     ];
 
     /**
@@ -41,4 +45,18 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public static function get_records($search)
+    {
+        $query = User::query();
+
+        if (@$search['freetext']) {
+            $query = $query->where('name', 'like', '%' . $search['freetext'] . '%');
+        }
+
+        $query->where('status', 'active');
+
+        $result = $query->paginate(10);
+        return $result;
+    }
 }
