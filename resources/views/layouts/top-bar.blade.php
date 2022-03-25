@@ -5,7 +5,7 @@
     <!-- BEGIN: Account Menu -->
     <div class="intro-x dropdown w-8 h-8">
         <div class="dropdown-toggle w-8 h-8 rounded-full overflow-hidden shadow-lg image-fit zoom-in">
-            <img alt="Midone Tailwind HTML Admin Template" id="profile" src="https://avatars.dicebear.com/api/adventurer/your-custom-seed.svg">
+            <img alt="Midone Tailwind HTML Admin Template" id="profile" src="https://avatars.dicebear.com/api/adventurer/{{ auth()->user()->name }}.svg">
         </div>
         <div class="dropdown-box w-56">
             <div class="dropdown-box__content box bg-theme-38 dark:bg-dark-6 text-white">
@@ -14,7 +14,7 @@
                     <div class="text-xs text-theme-41 dark:text-gray-600">JOB</div>
                 </div>
                 <div class="p-2">
-                    <a href=""
+                    <a href="{{ route('user_profile') }}"
                         class="flex items-center p-2 transition duration-300 ease-in-out hover:bg-theme-1 dark:hover:bg-dark-3 rounded-md">
                         <i data-feather="user" class="w-4 h-4 mr-2"></i> Profile
                     </a>

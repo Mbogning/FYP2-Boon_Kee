@@ -172,4 +172,55 @@ class UserController extends Controller
             return redirect()->route('user_listing');
         }
     }
+
+    public function admin_profile(Request $request)
+    {
+        $validate = null;
+
+        if ($request->isMethod('post')) {
+            $validate = Validator::make($request->all(), [
+                'name' => 'required',
+                'phone' => 'required',
+                'bod' => 'required',
+                'gender' => 'required'
+            ])->setAttributeNames([
+                'name' => 'Full name',
+                'phone' => 'Phone Number',
+                'bod' => 'Birth of Date',
+                'gender' => 'Gender'
+            ]);
+
+            if (!$validate->fails()) {
+                $user_id = auth()->user()->id;
+                $user = User::find($user_id);
+
+                $user_mobile = $request->input('phone');
+                if (substr($user_mobile, 0, 1) == '0') {
+                    $profile_mobile = '6' . $user_mobile;
+                } elseif (substr($user_mobile, 0, 1) == '1') {
+                    $profile_mobile = "60" . $user_mobile;
+                } elseif (substr($user_mobile, 0, 3) == '600') {
+                    $profile_mobile = "6" . substr($user_mobile, strpos($user_mobile, '600') + 2);
+                } else {
+                    $profile_mobile = $user_mobile;
+                }
+
+                $user->update([
+                    'name' => $request->input('name'),
+                    'phone' => $profile_mobile,
+                    'bod' => $request->input('bod'),
+                    'gender' => $request->input('gender'),
+                    'updated_at' => now()
+                ]);
+
+                Session::flash('success', 'Successfully updated profile details. ');
+                return redirect()->route('user_profile');
+            }
+        }
+
+        return view('users.profile', [
+            'user' => auth()->user(),
+            'gender' => ['male' => 'Male', 'female' => 'Female']
+        ])->withErrors($validate);
+    }
 }

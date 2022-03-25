@@ -33,25 +33,7 @@
         <img src="{{ asset('images/Hourglass.gif') }}"
             class="absolute mx-auto translate-x-1/2 translate-y-1/2 top-[40%] left-1/2" alt="">
     </div>
-
-    @if (Session::has('success'))
-        <div class="p-5">
-            <div class=" bg-green-200 text-green-800 border-green-900 py-3 px-5 rounded-lg">
-                <span class="font-bold">
-                    {{ session::get('success') }}
-                </span>
-            </div>
-        </div>
-    @endif
-    @if (Session::has('error'))
-        <div class="p-5">
-            <div class=" bg-red-300 text-red-800 border-red-900 py-3 px-5 rounded-lg">
-                <span class="font-bold">
-                    {{ session::get('error') }}
-                </span>
-            </div>
-        </div>
-    @endif
+    
     @yield('sidebar')
     {{ $slot ?? '' }}
 

@@ -45,8 +45,8 @@
                 <li>
                     <a href="javascript:void(0)" class="side-menu menu-title">
                         <div class="side-menu__icon"> <i data-feather="layout"></i> </div>
-                        <div class="side-menu__title"> Users <i data-feather="chevron-down"
-                                class="side-menu__sub-icon"></i> </div>
+                        <div class="side-menu__title"> Users <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
+                        </div>
                     </a>
                     <ul class="sub-menu">
                         <li>
@@ -97,6 +97,24 @@
         <!-- BEGIN: Content -->
         <div class="content">
             @include('layouts.top-bar')
+            @if (Session::has('success'))
+                <div class="px-5 pt-3">
+                    <div class=" bg-green-200 text-green-800 border-green-900 py-3 px-5 rounded-lg">
+                        <span class="font-bold">
+                            {{ session::get('success') }}
+                        </span>
+                    </div>
+                </div>
+            @endif
+            @if (Session::has('error'))
+                <div class="px-5 pt-3">
+                    <div class=" bg-red-300 text-red-800 border-red-900 py-3 px-5 rounded-lg">
+                        <span class="font-bold">
+                            {{ session::get('error') }}
+                        </span>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </div>
         <!-- END: Content -->

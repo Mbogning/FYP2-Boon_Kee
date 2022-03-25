@@ -31,5 +31,6 @@ Route::match(['get', 'post'], 'users/listing', [UserController::class, 'listing'
 Route::match(['get', 'post'], 'users/add', [UserController::class, 'add'])->name('user_add');
 Route::match(['get', 'post'], 'users/edit/{id}', [UserController::class, 'edit'])->name('user_edit');
 Route::post('users/delete', [UserController::class, 'delete'])->name('user_delete');
+Route::match(['get', 'post'], 'profile', [UserController::class, 'admin_profile'])->name('user_profile');
 
 // TODO User Route
