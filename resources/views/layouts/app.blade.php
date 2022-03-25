@@ -20,37 +20,64 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    {{-- <script src="{{ asset('js/midone.js') }}" defer></script> --}}
+    <script src="{{ asset('js/midone.js') }}" defer></script>
 
     @yield('head')
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
-        @if (Session::has('success'))
-            <div class="p-5">
-                <div class=" bg-green-200 text-green-800 border-green-900 py-3 px-5 rounded-lg">
-                    <span class="font-bold">
-                        {{ session::get('success') }}
-                    </span>
-                </div>
-            </div>
-        @endif
-        @if (Session::has('error'))
-            <div class="p-5">
-                <div class=" bg-red-300 text-red-800 border-red-900 py-3 px-5 rounded-lg">
-                    <span class="font-bold">
-                        {{ session::get('error') }}
-                    </span>
-                </div>
-            </div>
-        @endif
-        @yield('content')
-        {{ $slot ?? '' }}
+<body class="app">
+    {{-- @include('layouts.top-bar') --}}
+    {{-- @include('layouts.navigation') --}}
+
+    <div class="fixed min-h-screen min-w-full bg-white z-[99] -mt-5 -mx-8" id="preload">
+        <img src="{{ asset('images/Hourglass.gif') }}"
+            class="absolute mx-auto translate-x-1/2 translate-y-1/2 top-[40%] left-1/2" alt="">
     </div>
-    
+
+    @if (Session::has('success'))
+        <div class="p-5">
+            <div class=" bg-green-200 text-green-800 border-green-900 py-3 px-5 rounded-lg">
+                <span class="font-bold">
+                    {{ session::get('success') }}
+                </span>
+            </div>
+        </div>
+    @endif
+    @if (Session::has('error'))
+        <div class="p-5">
+            <div class=" bg-red-300 text-red-800 border-red-900 py-3 px-5 rounded-lg">
+                <span class="font-bold">
+                    {{ session::get('error') }}
+                </span>
+            </div>
+        </div>
+    @endif
+    @yield('sidebar')
+    {{ $slot ?? '' }}
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            // Animate loader off screen
+            $("#preload").fadeOut("slow");
+        });
+
+        $(document).ready(function() {
+            const route = '{{ URL::current() }}';
+            const location = window.location.href;
+            console.log(route + ' ' + location);
+            if (location == route || location == route + '/') {
+                $('a[href="' + route + '"]').addClass('side-menu--active');
+                let a_tag = $('a[href="' + route + '"]');
+
+                if (a_tag.parent().parents('ul.sub-menu').length) {
+                    a_tag.parent().parent().addClass('side-menu__sub-open');
+                    a_tag.parent().parent().parent().find('a.menu-title').addClass('side-menu--active');
+                }
+            }
+        });
+    </script>
     @yield('script')
 </body>
 

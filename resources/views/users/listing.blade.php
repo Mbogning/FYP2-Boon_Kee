@@ -1,6 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 @section('title')
     User Listing
+@endsection
+@section('breadcrumb')
+    <!-- BEGIN: Breadcrumb -->
+    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+        <a href="" class="">Application</a>
+        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
+        <a href="" class="breadcrumb--active">User</a>
+    </div>
+    <!-- END: Breadcrumb -->
 @endsection
 @section('content')
     <div class="p-5">
@@ -72,7 +81,7 @@
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     <a href="{{ route('user_edit', $user->id) }}"
-                                        class="border border-yellow-400 text-yellow-400 hover:text-white hover:bg-yellow-400 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                        class="border border-yellow-500 text-yellow-500 hover:text-white hover:bg-yellow-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
                                         Edit
                                     </a>
                                     <button

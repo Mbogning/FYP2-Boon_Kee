@@ -1,7 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.sidebar')
 @section('title')
     {{ $title }} User
 @endsection
+
+@section('breadcrumb')
+    <!-- BEGIN: Breadcrumb -->
+    <div class="-intro-x breadcrumb mr-auto hidden sm:flex">
+        <a href="" class="">Application</a>
+        <i data-feather="chevron-right" class="breadcrumb__icon"></i>
+        <a href="" class="breadcrumb--active">User</a>
+    </div>
+    <!-- END: Breadcrumb -->
+@endsection
+
 @section('content')
     @if ($errors->any())
         <div class="p-5">
@@ -45,9 +56,9 @@
                         </div>
                         <div class="">
                             <label for="" class="inline-block mb-1">Gender: </label>
-                            <div>
+                            <div class="flex">
                                 @foreach ($gender as $key => $gen)
-                                    <div>
+                                    <div class="mr-2">
                                         <input type="radio" name="gender" id="{{ $key }}"
                                             value="{{ $key }}"
                                             class="mr-2 w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
