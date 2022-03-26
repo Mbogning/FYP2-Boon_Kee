@@ -223,4 +223,14 @@ class UserController extends Controller
             'gender' => ['male' => 'Male', 'female' => 'Female']
         ])->withErrors($validate);
     }
+
+    public function user_profile(Request $request)
+    {
+        $user = auth()->user();
+
+        return view('guest.user.profile', [
+            'user' => $user,
+            'gender' => ['male' => 'Male', 'female' => 'Female']
+        ]);
+    }
 }

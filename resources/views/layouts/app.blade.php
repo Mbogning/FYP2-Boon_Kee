@@ -31,7 +31,7 @@
 
     <div class="fixed min-h-screen min-w-full bg-white z-[99] -mt-5 -mx-8" id="preload">
         <img src="{{ asset('images/Hourglass.gif') }}"
-            class="absolute mx-auto translate-x-1/2 translate-y-1/2 top-[40%] left-1/2" alt="">
+            class="absolute mx-auto translate-x-1/2 translate-y-1/2 top-[40%] left-[45%]" alt="">
     </div>
     
     @yield('sidebar')
@@ -42,7 +42,7 @@
     <script>
         $(window).on('load', function() {
             // Animate loader off screen
-            $("#preload").fadeOut("slow");
+            $("#preload").fadeOut("fast");
         });
 
         $(document).ready(function() {

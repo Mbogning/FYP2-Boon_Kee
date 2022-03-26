@@ -46,7 +46,7 @@
                     <i data-feather="phone" class="w-4 h-4 mr-2"></i> {{ $user->phone }}
                 </div>
                 <div class="truncate sm:whitespace-normal flex items-center mt-3">
-                    <i data-feather="compass" class="w-4 h-4 mr-2"></i>
+                    <i data-feather="gift" class="w-4 h-4 mr-2"></i>
                     {{ @$user->bod }}
                 </div>
             </div>
@@ -125,7 +125,7 @@
                                     </div>
                                     <div class="mt-3">
                                         <label>Gender: </label>
-                                        <div class="flex">
+                                        <div class="flex mt-2">
                                             @foreach ($gender as $key => $gen)
                                                 <div class="mr-2">
                                                     <input type="radio" name="gender" id="{{ $key }}"
