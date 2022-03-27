@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -72,7 +73,7 @@ class UserController extends Controller
 
                 $pass = substr($profile_mobile, -8);
 
-                User::create([
+                $user = User::create([
                     'name' => $request->input('name'),
                     'password' => Hash::make($pass),
                     'email' => $request->input('email'),
@@ -81,6 +82,8 @@ class UserController extends Controller
                     'gender' => $request->input('gender'),
                     'status' => 'active'
                 ]);
+
+                $user->syncRoles($request->input('role_id'));
 
                 Session::flash('success', 'Successfully created a new user. ');
                 return redirect()->route('user_listing');
@@ -93,7 +96,8 @@ class UserController extends Controller
             'title' => 'Add',
             'user' => $user,
             'submit' => route('user_add'),
-            'gender' => ['male' => 'Male', 'female' => 'Female']
+            'gender' => ['male' => 'Male', 'female' => 'Female'],
+            'roles' => Role::all()
         ])->withErrors($validate);
     }
 
@@ -140,6 +144,8 @@ class UserController extends Controller
                     'status' => 'active'
                 ]);
 
+                $user->syncRoles($request->input('role_id'));
+
                 Session::flash('success', 'Successfully updated user details. ');
                 // return route('user_listing');
                 return redirect()->route('user_listing');
@@ -152,7 +158,8 @@ class UserController extends Controller
             'title' => 'Edit',
             'user' => $user,
             'submit' => route('user_edit', $id),
-            'gender' => ['male' => 'Male', 'female' => 'Female']
+            'gender' => ['male' => 'Male', 'female' => 'Female'],
+            'roles' => Role::all()
         ])->withErrors($validate);
     }
 
@@ -224,6 +231,7 @@ class UserController extends Controller
         ])->withErrors($validate);
     }
 
+    // ? User Side 
     public function user_profile(Request $request)
     {
         $user = auth()->user();

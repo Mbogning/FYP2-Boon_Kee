@@ -68,6 +68,24 @@
                                 @endforeach
                             </div>
                         </div>
+                        <div>
+                            <label for="" class="inline-block mb-1">Role: </label>
+                            <select name="role_id" id="" class="block w-full text-sm rounded-lg p-3">
+                                <option value="">Please Select Role</option>
+                                @php
+                                    $role_id = null;
+                                    $role = @$user->roles;
+                                    if ($role) {
+                                        $role_id = @$role->first();
+                                    }
+                                @endphp
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}" @if (@$role_id->id == $role->id) selected @endif>
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="mt-5">
                         <button class="bg-blue-600 text-white py-2 px-3 rounded-md mr-2">Save</button>

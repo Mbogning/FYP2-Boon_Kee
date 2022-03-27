@@ -50,7 +50,7 @@
             </form>
         </div>
     </div>
-    <div x-data="{open: false}">
+    <div x-data="{ open: false }">
         <div class="p-5">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table class="w-full text-sm text-left text-gray-600 dark:text-gray-400">
@@ -58,6 +58,7 @@
                         <tr>
                             <th class="px-6 py-3">#</th>
                             <th class="px-6 py-3">User</th>
+                            <th class="px-6 py-3">Role</th>
                             <th class="px-6 py-3">Created On</th>
                             <th class="px-6 py-3">Action</th>
                         </tr>
@@ -69,12 +70,15 @@
                         @foreach ($users as $user)
                             <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ $i + $users->firstItem()}}
+                                    {{ $i + $users->firstItem() }}
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     <b>{{ $user->name }}</b> <br>
                                     {{ $user->email }} <br>
                                     {{ $user->phone }}
+                                </td>
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                    {{ @$user->roles->first()->name }}
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     {{ date_format($user->created_at, 'Y-m-d H:i A') }}

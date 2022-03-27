@@ -53,6 +53,13 @@
                 </ul>
                 <ul class="flex">
                     @auth
+                        @role('Admin')
+                            <li class="mr-8">
+                                <a href="{{ route('dashboard') }}">
+                                    Admin
+                                </a>
+                            </li>
+                        @endrole
                         <li class="mr-8">
                             <a href="">
                                 <i class='bx bxs-cart'></i>

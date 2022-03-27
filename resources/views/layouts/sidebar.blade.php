@@ -44,7 +44,7 @@
 
                 <li>
                     <a href="javascript:void(0)" class="side-menu menu-title">
-                        <div class="side-menu__icon"> <i data-feather="layout"></i> </div>
+                        <div class="side-menu__icon"> <i data-feather="users"></i> </div>
                         <div class="side-menu__title"> Users <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
                         </div>
                     </a>
@@ -59,6 +59,28 @@
                             <a href="{{ route('user_add') }}" class="side-menu">
                                 <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
                                 <div class="side-menu__title"> Add User </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)" class="side-menu menu-title">
+                        <div class="side-menu__icon"> <i data-feather="layout"></i> </div>
+                        <div class="side-menu__title"> Roles Permission <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
+                        </div>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{{ route('user_roles_listing') }}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                <div class="side-menu__title"> Roles </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('user_permission_listing') }}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                <div class="side-menu__title"> Permissions </div>
                             </a>
                         </li>
                     </ul>
