@@ -78,7 +78,33 @@
                                     {{ $user->phone }}
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                    {{ @$user->roles->first()->name }}
+                                    @php
+                                        $color = "";
+                                        switch (@$user->roles->first()->id) {
+                                            case '1':
+                                                $color = "bg-blue-600";
+                                                break;
+                                            case '2':
+                                                $color = "bg-violet-600";
+                                                break;
+                                            case '3':
+                                                $color = "bg-amber-600";
+                                                break;
+                                            case '4':
+                                                $color = "bg-emerald-600";
+                                                break;
+                                            case '5':
+                                                $color = "bg-teal-600";
+                                                break;
+                                            
+                                            default:
+                                                $color = "";
+                                                break;
+                                        }
+                                    @endphp
+                                    <span class="{{$color}} text-white text-xs rounded-2xl shadow-lg px-3 py-1.5">
+                                        {{ @$user->roles->first()->name }}
+                                    </span>
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     {{ date_format($user->created_at, 'Y-m-d H:i A') }}
