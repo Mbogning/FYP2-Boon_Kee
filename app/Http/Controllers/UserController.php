@@ -227,10 +227,38 @@ class UserController extends Controller
     public function user_profile(Request $request)
     {
         $user = auth()->user();
+        $validate = null;
+
+        if ($request->isMethod('post')) {
+            $validate = Validator::make($request->all(), [
+                'name' => 'required',
+                'phone' => 'required',
+                'bod' => 'required',
+                'gender' => 'required',
+            ])->setAttributeNames([
+                'name' => 'Fullname',
+                'phone' => 'Phone Number',
+                'bod' => 'Birth of Date',
+                'gender' => 'Gender'
+            ]);
+
+            if (!$validate->fails()) {
+                $find_user = User::find($user->id);
+                $find_user->update([
+                    'name' => $request->input('name'),
+                    'phone' => $request->input('phone'),
+                    'bod' => $request->input('bod'),
+                    'gender' => $request->input('gender')
+                ]);
+
+                Session::flash('success', 'Successfully update profile details.');
+                return redirect()->route('profile');
+            }
+        }
 
         return view('guest.user.profile', [
             'user' => $user,
             'gender' => ['male' => 'Male', 'female' => 'Female']
-        ]);
+        ])->withErrors($validate);
     }
 }

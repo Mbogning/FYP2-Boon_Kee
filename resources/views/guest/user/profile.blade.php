@@ -34,6 +34,7 @@
                 <div class="p-5">
                     <div class="bg-white h-full w-ful p-10 rounded-xl shadow-lg tab active" id="profile">
                         <form action="{{ route('profile') }}" method="post">
+                            @csrf
                             <div class="mb-5">
                                 <h1 class="underline font-bold text-2xl">
                                     My Profile
