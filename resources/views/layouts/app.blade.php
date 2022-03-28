@@ -48,7 +48,7 @@
         $(document).ready(function() {
             const route = '{{ URL::current() }}';
             const location = window.location.href;
-            console.log(route + ' ' + location);
+
             if (location == route || location == route + '/') {
                 $('a[href="' + route + '"]').addClass('side-menu--active');
                 let a_tag = $('a[href="' + route + '"]');

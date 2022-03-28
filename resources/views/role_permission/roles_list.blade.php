@@ -54,7 +54,7 @@
                             </td>
                             <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                 <a href="{{ route('user_roles_edit', $role->id) }}"
-                                    class="border border-yellow-500 text-yellow-500 hover:text-white hover:bg-yellow-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                    class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
                                     Edit
                                 </a>
                             </td>
