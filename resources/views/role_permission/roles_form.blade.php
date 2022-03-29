@@ -34,7 +34,7 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="">
                             <label for="" class="inline-block mb-3">Name: </label>
-                            <input type="text" name="name" id="" class="block w-full text-sm rounded-lg"
+                            <input type="text" name="name" id="" class="block w-full text-sm rounded-lg border-gray-400"
                                 value="{{ @$role->name }}" placeholder="" required>
                         </div>
                     </div>

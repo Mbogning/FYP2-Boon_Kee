@@ -36,22 +36,22 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="">
                             <label for="" class="inline-block mb-1">Name: </label>
-                            <input type="text" name="name" id="" class="block w-full text-sm rounded-lg"
+                            <input type="text" name="name" id="" class="block w-full text-sm rounded-lg border-gray-400"
                                 value="{{ @$user->name }}" placeholder="James Bond">
                         </div>
                         <div class="">
                             <label for="" class="inline-block mb-1">Email: </label>
-                            <input type="email" name="email" class="block w-full text-sm rounded-lg"
+                            <input type="email" name="email" class="block w-full text-sm rounded-lg border-gray-400"
                                 value="{{ @$user->email }}" placeholder="jamesbond@email.com" required>
                         </div>
                         <div class="">
                             <label for="" class="inline-block mb-1">Birth of Date: </label>
-                            <input type="date" name="bod" class="block w-full text-sm rounded-lg"
+                            <input type="date" name="bod" class="block w-full text-sm rounded-lg border-gray-400"
                                 value="{{ @$user->bod }}" required>
                         </div>
                         <div class="">
                             <label for="" class="inline-block mb-1">Phone Number: </label>
-                            <input type="tel" name="phone" class="block w-full text-sm rounded-lg"
+                            <input type="tel" name="phone" class="block w-full text-sm rounded-lg border-gray-400"
                                 value="{{ @$user->phone }}" maxlength="12" placeholder="601232133322" required>
                         </div>
                         <div class="">
@@ -70,7 +70,7 @@
                         </div>
                         <div>
                             <label for="" class="inline-block mb-1">Role: </label>
-                            <select name="role_id" id="" class="block w-full text-sm rounded-lg p-3">
+                            <select name="role_id" id="" class="block w-full text-sm rounded-lg p-3 border-gray-400">
                                 <option value="">Please Select Role</option>
                                 @php
                                     $role_id = null;

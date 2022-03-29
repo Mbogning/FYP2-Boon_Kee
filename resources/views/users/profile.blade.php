@@ -103,24 +103,24 @@
                                 <div class="col-span-6 lg:col-span-6">
                                     <div>
                                         <label>Email</label>
-                                        <input type="email" class="input w-full border-0 cursor-not-allowed mt-2"
+                                        <input type="email" class="input w-full border-0 cursor-not-allowed mt-2 border-gray-400"
                                             placeholder="Input text" value="{{ $user->email }}" disabled>
                                     </div>
                                     <div class="mt-3">
                                         <label>Name</label>
-                                        <input type="text" class="input w-full border mt-2" placeholder="Input text"
+                                        <input type="text" class="input w-full border mt-2 border-gray-400" placeholder="Input text"
                                             value="{{ $user->name }}" name="name">
                                     </div>
                                     <div class="mt-3">
                                         <label>Phone Number</label>
-                                        <input type="text" class="input w-full border mt-2" placeholder="Input text"
+                                        <input type="text" class="input w-full border mt-2 border-gray-400" placeholder="Input text"
                                             value="{{ $user->phone }}" name="phone">
                                     </div>
                                 </div>
                                 <div class="col-span-6 xl:col-span-6">
                                     <div>
                                         <label>Birth of date: </label>
-                                        <input type="date" class="input w-full border mt-2" placeholder="Input text"
+                                        <input type="date" class="input w-full border mt-2 border-gray-400" placeholder="Input text"
                                             value="{{ @$user->bod }}" name="bod">
                                     </div>
                                     <div class="mt-3">
