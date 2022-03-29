@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role;
 
 class WorkSchedule extends Model
 {
@@ -10,6 +11,17 @@ class WorkSchedule extends Model
     protected $fillable = [
         'user_id',
         'user_role_id',
-        'work_date'
+        'work_date',
+        'status'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'user_role_id');
+    }
 }

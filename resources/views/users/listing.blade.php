@@ -38,14 +38,23 @@
                         </div>
                         <input type="text" id="table-search" name="freetext" value="{{ @$search['freetext'] }}"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            placeholder="Search for users">
+                            placeholder="Search for users" autocomplete="off">
                     </div>
                 </div>
-                <div>
-                    <button class="bg-blue-500 text-white text-sm py-1.5 px-3 rounded-md mr-2" name="submit"
-                        value="submit">Submit</button>
-                    <button class="bg-red-400 text-white text-sm py-1.5 px-3 rounded-md mr-2" name="submit"
-                        value="reset">Reset</button>
+                <div class="flex justify-between">
+                    <div>
+                        <button class="bg-blue-500 text-white text-sm py-1.5 px-3 rounded-md mr-2" name="submit"
+                            value="submit">Submit</button>
+                        <button class="bg-red-400 text-white text-sm py-1.5 px-3 rounded-md mr-2" name="submit"
+                            value="reset">Reset</button>
+                    </div>
+                    <div>
+                        <button
+                            class="bg-amber-400 text-sm py-1.5 px-3 mr-2 rounded-md text-white hover:bg-amber-500 hover:shadow-md focus:ring-amber-400"
+                            type="button" id="work_schedule">
+                            Working Schedule
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
@@ -79,30 +88,29 @@
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     @php
-                                        $color = "";
+                                        $color = '';
                                         switch (@$user->roles->first()->id) {
                                             case '1':
-                                                $color = "bg-blue-600";
+                                                $color = 'bg-blue-600';
                                                 break;
                                             case '2':
-                                                $color = "bg-violet-600";
+                                                $color = 'bg-violet-600';
                                                 break;
                                             case '3':
-                                                $color = "bg-amber-600";
+                                                $color = 'bg-amber-600';
                                                 break;
                                             case '4':
-                                                $color = "bg-emerald-600";
+                                                $color = 'bg-emerald-600';
                                                 break;
                                             case '5':
-                                                $color = "bg-teal-600";
+                                                $color = 'bg-teal-600';
                                                 break;
-                                            
                                             default:
-                                                $color = "";
+                                                $color = '';
                                                 break;
                                         }
                                     @endphp
-                                    <span class="{{$color}} text-white text-xs rounded-2xl shadow-lg px-3 py-1.5">
+                                    <span class="{{ $color }} text-white text-xs rounded-2xl shadow-lg px-3 py-1.5">
                                         {{ @$user->roles->first()->name }}
                                     </span>
                                 </td>
@@ -111,7 +119,7 @@
                                 </td>
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     <a href="{{ route('user_edit', $user->id) }}"
-                                        class="border border-yellow-500 text-yellow-500 hover:text-white hover:bg-yellow-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                        class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
                                         Edit
                                     </a>
                                     <button
@@ -182,6 +190,11 @@
             </div>
         </div>
     </div>
+
+    <div class="p-5" id="show_schedule">
+        <iframe src="{{ route('working_schedule') }}" frameborder="0"
+            class="overflow-auto min-h-screen min-w-full"></iframe>
+    </div>
 @endsection
 
 @section('script')
@@ -189,6 +202,13 @@
         $(document).on('click', '#delete', function() {
             // console.log($(this).data('id'));
             $('#user_id').val($(this).data('id'));
+        })
+
+        $('#show_schedule').hide();
+        $('#work_schedule').click(function() {
+            $('#show_schedule').toggle(function() {
+
+            })
         })
     </script>
 @endsection

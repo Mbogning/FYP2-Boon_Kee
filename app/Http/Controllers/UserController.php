@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\WorkSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -229,6 +230,64 @@ class UserController extends Controller
             'user' => auth()->user(),
             'gender' => ['male' => 'Male', 'female' => 'Female']
         ])->withErrors($validate);
+    }
+
+    public function working_schedule(Request $request)
+    {
+        $selected_date = null;
+        $all_schedule = WorkSchedule::query()->where('status', 'active')->get();
+        if ($request->isMethod('post')) {
+            $selected_date = WorkSchedule::query()->where('status', 'active')->where('work_date', $request->input('date'))->with(['role','user'])->get();
+            return ['date' => $request->input('date'), 'result' => $selected_date];
+            // return 'returning post result '. $request->input('date');
+        }
+
+        return view('work_schedule.list', [
+            'all_schedule' => $all_schedule,
+            'roles' => ['' => 'Please Select Role', '1' => 'Admin', '3' => 'Chef', '5' => 'Cashier', '4' => 'Waiter']
+        ]);
+    }
+
+    public function insert_working_schedule(Request $request)
+    {
+        // dd($request->all());
+        $validate = Validator::make($request->all(), [
+            'user_role_id' => 'required',
+            'user_id' => 'required',
+            'work_date' => 'required',
+            'status' => 'required'
+        ]);
+
+        if (!$validate->fails()) {
+            WorkSchedule::create([
+                'user_role_id' => $request->input('user_role_id'),
+                'user_id' => $request->input('user_id'),
+                'work_date' => $request->input('work_date'),
+                'status' => $request->input('status')
+            ]);
+            Session::flash('success', 'Successfully inserted a new working schedule');
+            return redirect()->route('working_schedule');
+        } else {
+            Session::flash('error', 'Error while creating new working schedule. Please try again.');
+            return redirect()->route('working_schedule');
+        }
+    }
+
+    public function search_user_role(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $arr = [];
+            $users = User::role($request->input('role'))->get();
+
+            if (count($users) > 0) {
+                foreach ($users as $key => $user) {
+                    $arr[$user->id] = $user->name;
+                }
+                return ['status' => 'true', 'data' => $arr];
+            } else {
+                return ['status' => 'false', 'data' => ''];
+            }
+        }
     }
 
     // ? User Side 
