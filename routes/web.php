@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MenusTypeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\UserRolesController;
@@ -48,6 +50,17 @@ Route::middleware(['role:Admin'])->group(function () {
 
     Route::match(['get', 'post'], 'admin/user/working-schedule', [UserController::class, 'working_schedule'])->name('working_schedule');
     Route::post('/admin/insert/working_schedule', [UserController::class, 'insert_working_schedule'])->name('insert_working_schedule');
+
+    Route::match(['get', 'post'], 'admin/menus/listing', [MenuController::class, 'listing'])->name('menu_listing');
+    Route::match(['get', 'post'], 'admin/menus/add', [MenuController::class, 'add'])->name('menu_add');
+    Route::match(['get', 'post'], 'admin/menus/edit/{id}', [MenuController::class, 'edit'])->name('menu_edit');
+    Route::match(['get', 'post'], 'admin/menus/delete', [MenuController::class, 'delete'])->name('menu_delete');
+
+    Route::match(['get', 'post'], 'admin/menus_type/listing', [MenusTypeController::class, 'listing'])->name('menu_type_listing');
+    Route::match(['get', 'post'], 'admin/menus_type/add', [MenusTypeController::class, 'add'])->name('menu_type_add');
+    Route::match(['get', 'post'], 'admin/menus_type/edit/{id}', [MenusTypeController::class, 'edit'])->name('menu_type_edit');
+    Route::match(['get', 'post'], 'admin/menus_type/delete', [MenusTypeController::class, 'delete'])->name('menu_type_delete');
+
 });
 
 // TODO User Route

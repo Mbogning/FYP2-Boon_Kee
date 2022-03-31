@@ -21,6 +21,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/midone.js') }}" defer></script>
+    <script src="https://cdn.ckeditor.com/4.18.0/standard/ckeditor.js"></script>
 
     @yield('head')
 </head>
