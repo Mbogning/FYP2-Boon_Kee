@@ -17,8 +17,8 @@
         <div class="col-span-1 bg-slate-500">
             <div class="pt-[5.75rem]">
                 <div class="py-5 px-10 text-center grid">
-                    <a class="bg-white px-5 py-2.5 mb-5 rounded-md shadow-md text-yellow-600" href="javascript:void(0);" data-toggle="tab"
-                        data-target="#profile">
+                    <a class="bg-white px-5 py-2.5 mb-5 rounded-md shadow-md text-yellow-600" href="javascript:void(0);"
+                        data-toggle="tab" data-target="#profile">
                         Profile Details
                     </a>
                     <a class="bg-white px-5 py-2.5 mb-5 rounded-md shadow-md" href="javascript:void(0);" data-toggle="tab"
@@ -32,7 +32,7 @@
         <div class="col-span-3 bg-yellow-300">
             <div class="pt-[5.75rem]">
                 <div class="p-5">
-                    <div class="bg-white h-full w-ful p-10 rounded-xl shadow-lg tab active" id="profile">
+                    <div class="bg-[#EEF0F4] h-full w-ful p-10 rounded-xl shadow-lg tab active" id="profile">
                         <form action="{{ route('profile') }}" method="post">
                             @csrf
                             <div class="mb-5">
@@ -43,22 +43,22 @@
                             <div class="grid grid-cols-2 gap-10">
                                 <div>
                                     <label for="" class="inline-block mb-2">Fullname: </label>
-                                    <input type="text" name="name" class="block rounded-md w-full"
+                                    <input type="text" name="name" class="block rounded-md w-full p-3 neu-input border-0"
                                         value="{{ $user->name }}">
                                 </div>
                                 <div>
                                     <label for="" class="inline-block mb-2">Email: </label>
-                                    <input type="email" class="block border-0 rounded-md w-full"
+                                    <input type="email" class="block border-0 rounded-md w-full bg-[#EEF0F4]"
                                         value="{{ $user->email }}" disabled>
                                 </div>
                                 <div>
                                     <label for="" class="inline-block mb-2">Phone Number: </label>
-                                    <input type="tel" name="phone" class="block rounded-md w-full"
+                                    <input type="tel" name="phone" class="block rounded-md w-full border-0 neu-input"
                                         value="{{ $user->phone }}">
                                 </div>
                                 <div>
                                     <label for="" class="inline-block mb-2">Birth of Date: </label>
-                                    <input type="date" name="bod" class="block rounded-md w-full"
+                                    <input type="date" name="bod" class="block rounded-md w-full border-0 neu-input"
                                         value="{{ $user->bod }}">
                                 </div>
                                 <div>
@@ -77,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="flex mt-10">
-                                <button type="submit" class="mr-3 px-5 py-2.5 bg-yellow-200 rounded-lg">
+                                <button type="submit" class="mr-3 px-5 py-2.5 bg-yellow-200 hover:bg-amber-300 rounded-lg">
                                     Save
                                 </button>
                                 <a href="{{ route('welcome') }}" class="px-5 py-2.5 bg-slate-700 text-white rounded-lg">
@@ -86,7 +86,7 @@
                             </div>
                         </form>
                     </div>
-                    <div id="order-history" class="bg-white h-full w-ful p-10 rounded-xl shadow-lg tab">
+                    <div id="order-history" class="bg-[#EEF0F4] h-full w-ful p-10 rounded-xl shadow-lg tab">
                         <div class="mb-5">
                             <h1 class="underline font-bold text-2xl">
                                 Reservation History

@@ -114,4 +114,26 @@ class MenuController extends Controller
             return redirect()->route('menu_listing');
         }
     }
+
+    // TODO User Side 
+    public function view_menus()
+    {
+        $menus = Menus::get_active_menu();
+        $menu_type = MenusType::get_menu_types();
+
+        return view('guest.menu.list', [
+            'menus' => $menus,
+            'menu_type' => $menu_type
+        ]);
+    }
+
+    public function view_menu_info($slug)
+    {
+        $menu = Menus::get_by_slug($slug);
+
+        return view('guest.menu.info', [
+            'menu' => $menu,
+            'more_menu' => Menus::get_all_except($slug)
+        ]);
+    }
 }

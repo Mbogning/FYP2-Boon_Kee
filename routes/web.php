@@ -65,7 +65,9 @@ Route::middleware(['role:Admin'])->group(function () {
 
 // TODO User Route
 Route::match(['get', 'post'], 'profile', [UserController::class, 'user_profile'])->name('profile')->middleware(['verified']);
-// Route::match(['get', 'post'], 'menus')->name('view_menus');
+Route::match(['get', 'post'], 'menus', [MenuController::class, 'view_menus'])->name('view_menus');
+Route::match(['get', 'post'], 'menus/{slug}', [MenuController::class, 'view_menu_info'])->name('view_menu_info');
+// Route::get('/about_us');
 
 
 Route::match(['get', 'post'], 'ajax_get_user_roles', [UserController::class, 'search_user_role'])->name('ajax_user_roles');

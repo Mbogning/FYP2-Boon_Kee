@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 
 <head>
     <meta charset="utf-8">
@@ -15,6 +15,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/neumorphism.css') }}">
 
     <style>
         body {
@@ -45,7 +46,7 @@
             <div class="flex justify-between w-full items-center">
                 <ul class="flex">
                     <li class="mr-8">
-                        <a href="" class="text-sm font-bold">MENU</a>
+                        <a href="{{ route('view_menus') }}" class="text-sm font-bold">MENU</a>
                     </li>
                     <li class="mr-8">
                         <a href="" class="text-sm font-bold">ABOUT US</a>

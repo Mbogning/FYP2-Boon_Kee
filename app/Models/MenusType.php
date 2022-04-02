@@ -28,4 +28,10 @@ class MenusType extends Model
 
         return $result;
     }
+
+    public static function get_menu_types()
+    {
+        $query = MenusType::query()->where('status', '!=', 'deleted')->get();
+        return $query;
+    }
 }
