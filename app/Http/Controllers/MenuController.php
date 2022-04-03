@@ -13,7 +13,8 @@ class MenuController extends Controller
     public function listing(Request $request)
     {
         return view('menus.listing', [
-            'menus' => Menus::get_all()
+            'menus' => Menus::get_all(),
+            'imgs' => Menus::get_all_menu_img()
         ]);
     }
 
@@ -41,6 +42,16 @@ class MenuController extends Controller
                     'created_at' => now(),
                     'updated_at' => now()
                 ]);
+
+                if ($request->file('menu_img')) {
+                    $file_name = $request->file('menu_img')->getClientOriginalName();
+                    $file = fopen($request->file('menu_img')->getPathname(), 'r');
+                    app('firebase.storage')->getBucket()->upload($file, ['name' => 'menus/' . $menu->slug . '/' . $file_name]);
+                    $menu->update([
+                        'img_name' => $file_name,
+                        'updated_at' => now()
+                    ]);
+                }
 
                 Session::flash('success', 'Successfully created a new menu.');
                 return redirect()->route('menu_listing');
@@ -84,6 +95,19 @@ class MenuController extends Controller
                     'updated_at' => now()
                 ]);
 
+                if ($request->file('menu_img')) {
+                    if ($menu->img_name) {
+                        app('firebase.storage')->getBucket()->object('menus/' . $menu->slug . '/' . $menu->img_name)->delete();
+                    }
+                    $file_name = $request->file('menu_img')->getClientOriginalName();
+                    $file = fopen($request->file('menu_img')->getPathname(), 'r');
+                    app('firebase.storage')->getBucket()->upload($file, ['name' => 'menus/' . $menu->slug . '/' . $file_name]);
+                    $menu->update([
+                        'img_name' => $file_name,
+                        'updated_at' => now()
+                    ]);
+                }
+
                 Session::flash('success', 'Successfully updated menu');
                 return redirect()->route('menu_listing');
             }
@@ -123,7 +147,8 @@ class MenuController extends Controller
 
         return view('guest.menu.list', [
             'menus' => $menus,
-            'menu_type' => $menu_type
+            'menu_type' => $menu_type,
+            'imgs' => Menus::get_all_menu_img()
         ]);
     }
 
@@ -133,7 +158,9 @@ class MenuController extends Controller
 
         return view('guest.menu.info', [
             'menu' => $menu,
-            'more_menu' => Menus::get_all_except($slug)
+            'more_menu' => Menus::get_all_except($slug),
+            'menu_img' => Menus::get_menu_img($slug),
+            'imgs' => Menus::get_all_menu_img()
         ]);
     }
 }

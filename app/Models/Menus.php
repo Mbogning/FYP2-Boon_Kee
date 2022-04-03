@@ -18,6 +18,7 @@ class Menus extends Model
         'price',
         'type',
         'status',
+        'img_name'
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -57,6 +58,35 @@ class Menus extends Model
     {
         $query = Menus::query()->where('slug', '!=', $slug);
         $result = $query->where('status', 'active')->get();
+        return $result;
+    }
+
+    public static function get_all_menu_img()
+    {
+        $result = [];
+        $menu = Menus::query()->get();
+
+        foreach ($menu as $key => $value) {
+            if ($value->img_name) {
+                $img = app('firebase.storage')->getBucket()->object('menus/' . $value->slug . '/' . $value->img_name);
+                $expiresAt = new \DateTime('tomorrow');
+                $result[$value->slug] = $img->signedUrl($expiresAt);
+            }
+        }
+
+        return $result;
+    }
+
+    public static function get_menu_img($slug)
+    {
+        $result = null;
+        $menu = Menus::query()->where('slug', $slug)->first();
+        if ($menu->img_name) {
+            $img = app('firebase.storage')->getBucket()->object('menus/' . $menu->slug . '/' . $menu->img_name);
+            $expiresAt = new \DateTime('tomorrow');
+            $result = $img->signedUrl($expiresAt);
+        }
+
         return $result;
     }
 }

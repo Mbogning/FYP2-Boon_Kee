@@ -13,7 +13,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="grid grid-cols-4 min-h-screen">
+    <div class="sm:grid sm:grid-cols-4 min-h-screen">
         <div class="col-span-1 bg-slate-500">
             <div class="pt-[5.75rem]">
                 <div class="py-5 px-10 text-center grid">
@@ -29,10 +29,17 @@
             </div>
         </div>
 
-        <div class="col-span-3 bg-yellow-300">
-            <div class="pt-[5.75rem]">
+        <div class="col-span-3 bg-yellow-200 min-h-screen">
+            <div class="sm:pt-[5.75rem]">
                 <div class="p-5">
-                    <div class="bg-[#EEF0F4] h-full w-ful p-10 rounded-xl shadow-lg tab active" id="profile">
+                    <div class="h-full w-ful px-10 pb-10 sm:p-10 rounded-xl shadow-lg tab active bg-white/60 backdrop-blur-md animate__animated animate__backInUp"
+                        id="profile">
+                        <div class="mx-auto">
+                            <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_fuugfjlw.json"
+                                background="transparent" speed="1" style="width: 300px; height: 300px;"
+                                class="mx-auto" autoplay>
+                            </lottie-player>
+                        </div>
                         <form action="{{ route('profile') }}" method="post">
                             @csrf
                             <div class="mb-5">
@@ -40,7 +47,7 @@
                                     My Profile
                                 </h1>
                             </div>
-                            <div class="grid grid-cols-2 gap-10">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                                 <div>
                                     <label for="" class="inline-block mb-2">Fullname: </label>
                                     <input type="text" name="name" class="block rounded-md w-full p-3 neu-input border-0"
@@ -48,7 +55,7 @@
                                 </div>
                                 <div>
                                     <label for="" class="inline-block mb-2">Email: </label>
-                                    <input type="email" class="block border-0 rounded-md w-full bg-[#EEF0F4]"
+                                    <input type="email" class="block border-0 rounded-md w-full bg-transparent"
                                         value="{{ $user->email }}" disabled>
                                 </div>
                                 <div>
@@ -77,16 +84,25 @@
                                 </div>
                             </div>
                             <div class="flex mt-10">
-                                <button type="submit" class="mr-3 px-5 py-2.5 bg-yellow-200 hover:bg-amber-300 rounded-lg">
+                                <button type="submit" class="mr-3 px-5 py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
                                     Save
                                 </button>
-                                <a href="{{ route('welcome') }}" class="px-5 py-2.5 bg-slate-700 text-white rounded-lg">
+                                <a href="{{ route('welcome') }}" class="px-5 py-2.5 bg-slate-700 text-white rounded-lg mr-3">
                                     Cancel
                                 </a>
+                                <div class="block sm:hidden">
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="px-5 py-2.5 bg-red-400 text-white rounded-lg">
+                                            Log Out
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </form>
                     </div>
-                    <div id="order-history" class="bg-[#EEF0F4] h-full w-ful p-10 rounded-xl shadow-lg tab">
+                    <div id="order-history"
+                        class="bg-[#EEF0F4] h-full w-ful p-10 rounded-xl shadow-lg tab animate__animated animate__backInUp">
                         <div class="mb-5">
                             <h1 class="underline font-bold text-2xl">
                                 Reservation History

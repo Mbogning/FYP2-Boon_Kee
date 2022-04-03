@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth h-full">
 
 <head>
     <meta charset="utf-8">
@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/toast.css') }}">
     <link rel="stylesheet" href="{{ asset('css/neumorphism.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
     <style>
         body {
@@ -30,20 +31,21 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     @yield('head')
 </head>
 
-<body class="antialiased">
+<body class="antialiased h-full">
     <div class="fixed w-full backdrop-blur-lg bg-white/60 dark:bg-slate-800/60 z-[51]">
         <nav class="px-5 sm:px-12 py-8 flex items-center whitespace-nowrap">
-            <div class="flex mr-20">
+            <div class="block sm:flex mx-auto sm:mr-20">
                 <h1 class="font-black text-2xl">
                     <a href="{{ route('welcome') }}">
                         BOON KEE
                     </a>
                 </h1>
             </div>
-            <div class="flex justify-between w-full items-center">
+            <div class="hidden sm:flex justify-between w-full items-center">
                 <ul class="flex">
                     <li class="mr-8">
                         <a href="{{ route('view_menus') }}" class="text-sm font-bold">MENU</a>
@@ -74,10 +76,6 @@
                         <li class="mr-8">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                {{-- <a href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();this.closest('form').submit(); sessionStorage.clear()">
-                                    
-                                </a> --}}
                                 <button type="submit">
                                     <i class='bx bx-log-out'></i>
                                 </button>
@@ -128,6 +126,38 @@
     {{-- Hero --}}
     <div class="min-h-screen bg-slate-100 relative">
         @yield('content')
+    </div>
+
+    <div class="fixed sm:hidden justify-between w-full items-center z-[55] bottom-0 bg-slate-200/60 backdrop-blur-md">
+        <ul class="flex justify-between p-3 max-w-xs mx-auto">
+            <li class="text-center px-3">
+                <a href="{{ route('view_menus') }}" class="text-sm font-bold">
+                    <i class='bx bxs-food-menu inline-block'></i>
+                    <span class="block text-xs">Menu</span>
+                </a>
+            </li>
+            <li class="text-center px-3">
+                <a href="">
+                    <i class='bx bxs-cart inline-block'></i>
+                    <span class="block text-xs">Cart</span>
+                </a>
+            </li>
+
+            <li class="text-center px-3">
+                @php
+                    $url = '';
+                    if (auth()->user()) {
+                        $url = route('profile');
+                    } else {
+                        $url = route('login');
+                    }
+                @endphp
+                <a href="{{ $url }}">
+                    <i class='bx bxs-user-circle inline-block'></i>
+                    <span class="block text-xs">Profile</span>
+                </a>
+            </li>
+        </ul>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

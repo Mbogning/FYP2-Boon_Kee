@@ -8,6 +8,9 @@
 @section('content')
     <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen">
         <div class="">
+            @php
+                $url = "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg";
+            @endphp
             @foreach ($menu_type as $type)
                 <div class="mt-20 px-0 py-5 sm:p-5 md:p-10">
                     <div class="mb-5">
@@ -18,9 +21,11 @@
                             @if ($type->id == $menu->type)
                                 <div
                                     class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg">
-                                    <img class="rounded-t-lg"
-                                        src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                                        alt="" />
+                                    <a href="{{ route('view_menu_info', $menu->slug) }}">
+                                        <img class="rounded-t-lg"
+                                            src="{{ @$imgs[$menu->slug] ?? $url }}"
+                                            alt="" />
+                                    </a>
                                     <div class=" p-5">
                                         <a href="{{ route('view_menu_info', $menu->slug) }}">
                                             <h5

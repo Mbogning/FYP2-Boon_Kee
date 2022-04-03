@@ -4,21 +4,28 @@
 
 @endsection
 @section('content')
+    @php
+    $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+    @endphp
     <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen">
         {{-- Hero --}}
-        <div class="">
+        <div class="h-full">
             <div class="mt-20">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                    alt="" class="shadow-lg">
+                <img src="{{ $menu_img ?? $url }}" alt="" class="w-full bg-fixed rounded-b-xl">
             </div>
         </div>
         {{-- Description --}}
-        <div class="pt-5">
+        <div class="pt-5 sm:p-10 sm:relative sm:bg-white sm:rounded-xl sm:-top-20 sm:w-3/4 sm:mx-auto sm:shadow-lg">
             <div>
                 <div class="mb-5">
-                    <h1 class="text-2xl font-bold underline">{{ $menu->name }}</h1>
+                    <h1 class="text-5xl font-bold">{{ $menu->name }}</h1>
                 </div>
-                <div>
+                <div class="mb-5">
+                    <p class="text-md">
+                        Price : <b>RM {{ number_format($menu->price, 2) }}</b>
+                    </p>
+                </div>
+                <div class="mb-5 text-justify">
                     {!! $menu->description !!}
                 </div>
             </div>
@@ -33,8 +40,8 @@
             <div class="flex overflow-x-auto snap-x">
                 @foreach ($more_menu as $more)
                     <div class="mr-3 flex-none p-5 w-1/2 snap-center">
-                        <a href="">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg" class="rounded-xl brightness-75" />
+                        <a href="{{ route('view_menu_info', $more->slug) }}">
+                            <img src="{{ @$imgs[$more->slug] ?? $url }}" class="rounded-xl brightness-75" />
                         </a>
                         <p
                             class="text-xs -translate-y-6 text-white font-semibold sm:-translate-y-8 sm:text-base translate-x-3">
