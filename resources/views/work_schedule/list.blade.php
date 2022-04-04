@@ -14,7 +14,7 @@
 
 <body>
     @if (Session::has('success'))
-        <div class="px-5 pt-3">
+        <div class="py-3">
             <div class=" bg-green-200 text-green-800 border-green-900 py-3 px-5 rounded-lg">
                 <span class="font-bold">
                     {{ session::get('success') }}
@@ -23,7 +23,7 @@
         </div>
     @endif
     @if (Session::has('error'))
-        <div class="px-5 pt-3">
+        <div class="py-3">
             <div class=" bg-red-300 text-red-800 border-red-900 py-3 px-5 rounded-lg">
                 <span class="font-bold">
                     {{ session::get('error') }}

@@ -56,10 +56,10 @@
                 </ul>
                 <ul class="flex">
                     @auth
-                        @role('Admin')
+                        @role('Admin|Chef|Cashier|Waiter')
                             <li class="mr-8">
-                                <a href="{{ route('dashboard') }}">
-                                    Admin
+                                <a href="{{ route('dashboard') }}" class="hover:underline">
+                                    Dashboard
                                 </a>
                             </li>
                         @endrole
@@ -83,13 +83,16 @@
                         </li>
                     @else
                         <li class="mr-8">
-                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log
-                                in</a>
+                            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">
+                                Log in
+                            </a>
                         </li>
                         @if (Route::has('register'))
                             <li class="mr-8">
                                 <a href="{{ route('register') }}"
-                                    class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+                                    class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">
+                                    Register
+                                </a>
                             </li>
                         @endif
                     @endauth

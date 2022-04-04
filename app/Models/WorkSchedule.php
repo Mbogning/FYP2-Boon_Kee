@@ -24,4 +24,11 @@ class WorkSchedule extends Model
     {
         return $this->belongsTo(Role::class, 'user_role_id');
     }
+
+    public static function get_worker_schedule($id)
+    {
+        $query = WorkSchedule::query()->where('user_id', $id)->where('status', 'active');
+        $result = $query->orderBy('work_date', 'asc')->get();
+        return $result;
+    }
 }

@@ -42,99 +42,92 @@
                     </a>
                 </li>
 
-                <li>
-                    <a href="javascript:void(0)" class="side-menu menu-title">
-                        <div class="side-menu__icon"> <i data-feather="users"></i> </div>
-                        <div class="side-menu__title"> Users <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="{{ route('user_listing') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Listing </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('user_add') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Add User </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['user_listing', 'user_form'])
+                    <li>
+                        <a href="javascript:void(0)" class="side-menu menu-title">
+                            <div class="side-menu__icon"> <i data-feather="users"></i> </div>
+                            <div class="side-menu__title"> Users <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
+                            </div>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('user_listing') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> Listing </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('user_add') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> Add User </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
 
                 <li>
-                    <a href="javascript:void(0)" class="side-menu menu-title">
-                        <div class="side-menu__icon"> <i data-feather="layout"></i> </div>
-                        <div class="side-menu__title"> Roles Permission <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
-                        </div>
+                    <a href="{{ route('view_working_schedule') }}" class="side-menu">
+                        <div class="side-menu__icon"> <i data-feather="calendar"></i> </div>
+                        <div class="side-menu__title"> Work Schedule </div>
                     </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="{{ route('user_roles_listing') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Roles </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('user_permission_listing') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Permissions </div>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
 
-                <li>
-                    <a href="javascript:void(0)" class="side-menu menu-title">
-                        <div class="side-menu__icon"> <i data-feather="coffee"></i> </div>
-                        <div class="side-menu__title"> Menus <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
-                        </div>
-                    </a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="{{ route('menu_listing') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Listing </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('menu_add') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> New Menu </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('menu_type_listing') }}" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Menu Type </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['roles', 'permissions'])
+                    <li>
+                        <a href="javascript:void(0)" class="side-menu menu-title">
+                            <div class="side-menu__icon"> <i data-feather="lock"></i> </div>
+                            <div class="side-menu__title"> Roles Permission <i data-feather="chevron-down"
+                                    class="side-menu__sub-icon"></i>
+                            </div>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('user_roles_listing') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> Roles </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('user_permission_listing') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> Permissions </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcan
 
-                <li>
-                    <a href="javascript:;" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="box"></i> </div>
-                        <div class="side-menu__title"> Menu Layout <i data-feather="chevron-down"
-                                class="side-menu__sub-icon"></i> </div>
-                    </a>
-                    <ul class="">
-                        <li>
-                            <a href="index.html" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Side Menu </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="simple-menu-light-dashboard.html" class="side-menu">
-                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
-                                <div class="side-menu__title"> Simple Menu </div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @canany(['menus_listing', 'menus_form', 'menus_type'])
+                    <li>
+                        <a href="javascript:void(0)" class="side-menu menu-title">
+                            <div class="side-menu__icon"> <i data-feather="coffee"></i> </div>
+                            <div class="side-menu__title"> Menus <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
+                            </div>
+                        </a>
+                        <ul class="sub-menu">
+                            <li>
+                                <a href="{{ route('menu_listing') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> Listing </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('menu_add') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> New Menu </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('menu_type_listing') }}" class="side-menu">
+                                    <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                    <div class="side-menu__title"> Menu Type </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endcanany
+
                 <li>
                     <a href="index.html" class="side-menu">
                         <div class="side-menu__icon"> <i data-feather="box"></i> </div>
