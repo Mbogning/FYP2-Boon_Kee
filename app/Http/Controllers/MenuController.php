@@ -76,6 +76,8 @@ class MenuController extends Controller
             return redirect()->route('menu_listing');
         }
 
+        $menu_img = Menus::get_menu_img($menu->slug);
+
         if ($request->isMethod('post')) {
             $validate = Validator::make($request->all(), [
                 'name' => 'required',
@@ -118,6 +120,7 @@ class MenuController extends Controller
             'submit' => route('menu_edit', $id),
             'menu_type' => MenusType::get_menu_type(),
             'menu' => $menu,
+            'menu_img' => $menu_img,
             'status' => ['' => 'Please Select Status', 'active' => 'Active', 'deactive' => 'Deactive']
         ])->withErrors($validate);
     }

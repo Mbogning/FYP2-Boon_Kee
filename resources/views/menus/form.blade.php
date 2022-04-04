@@ -47,6 +47,10 @@
                             <input
                                 class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer p-3"
                                 aria-describedby="user_avatar_help" id="user_avatar" type="file" name="menu_img">
+
+                            @if (@$menu->img_name)
+                                <img src="{{ $menu_img }}" alt="">
+                            @endif
                         </div>
                     </div>
                     <div class="block bg-white rounded-lg shadow-lg p-5 border-gray-400">
@@ -81,7 +85,8 @@
                             <button class="bg-blue-600 text-white py-2.5 px-3 rounded-md mr-2">
                                 Save
                             </button>
-                            <a href="{{ route('menu_listing') }}" class="bg-gray-600 text-white py-2 px-3 rounded-md mr-2">
+                            <a href="{{ route('menu_listing') }}"
+                                class="bg-gray-600 text-white py-2 px-3 rounded-md mr-2">
                                 Cancel
                             </a>
                         </div>
