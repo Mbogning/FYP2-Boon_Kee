@@ -31,7 +31,7 @@
             </div>
         </div>
         {{-- More foods --}}
-        <div class="py-5 max-w-xl">
+        <div class="py-5 max-w-[20rem] sm:max-w-xl">
             <div class="mb-5">
                 <h1 class="text-xl font-bold">
                     More Food

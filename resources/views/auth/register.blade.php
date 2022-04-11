@@ -45,6 +45,35 @@
                                 name="password_confirmation" required />
             </div>
 
+            <!-- Email Address -->
+            <div class="mt-4">
+                <x-label for="bod" :value="__('Birth of Date')" />
+
+                <x-input id="bod" class="block mt-1 w-full" type="date" name="bod" :value="old('bod')" required />
+            </div>
+
+            <!-- Email Address -->
+            <div class="mt-4">
+                <x-label for="phone" :value="__('Phone')" />
+
+                <x-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" maxlength="12" required />
+            </div>
+
+            <!-- Email Address -->
+            <div class="mt-4">
+                <x-label for="gender" :value="__('Gender')" />
+                <div class="flex mt-3 mr-3">
+                    <div class="flex justify-center mr-3">
+                        <input id="male" class=" mr-1" type="radio" name="gender" value="male" />
+                        <label for="male">Male</label>
+                    </div>
+                    <div class="flex justify-center mr-3">
+                        <input id="female" class=" mr-1 " type="radio" name="gender" value="female" />
+                        <label for="female">Female</label>
+                    </div>
+                </div>
+            </div>
+
             <div class="flex items-center justify-end mt-4">
                 <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
                     {{ __('Already registered?') }}
