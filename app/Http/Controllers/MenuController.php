@@ -159,6 +159,11 @@ class MenuController extends Controller
     {
         $menu = Menus::get_by_slug($slug);
 
+        if (!$menu) {
+            Session::flash('error', 'No Item Found. The item has been removed or deactive. ');
+            return redirect()->route('view_menus');
+        }
+
         return view('guest.menu.info', [
             'menu' => $menu,
             'more_menu' => Menus::get_all_except($slug),

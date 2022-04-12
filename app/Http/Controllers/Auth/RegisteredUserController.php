@@ -49,6 +49,8 @@ class RegisteredUserController extends Controller
             'status' => 'active'
         ]);
 
+        $user->assignRole('Customer');
+
         event(new Registered($user));
 
         Auth::login($user);

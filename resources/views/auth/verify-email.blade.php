@@ -39,7 +39,7 @@
 </x-guest-layout> --}}
 @extends('layouts.guest')
 @section('content')
-    <div style="padding: 25% 0">
+    <div style="" class="">
         <div class="intro-y box w-1/2 min-h-full" style="margin: auto">
             <div class="flex items-center border-b border-gray-200 dark:border-dark-5 px-5 py-4">
                 <div class="w-10 h-10 flex-none image-fit">
@@ -62,7 +62,7 @@
                     <form method="POST" action="{{ route('verification.send') }}">
                         @csrf
                         <div>
-                            <button class="btn btn-elevated-dark mr-2">
+                            <button class=" bg-slate-700 hover:bg-slate-800 text-white px-3 py-2.5 rounded-md mr-2">
                                 {{ __('Resend Verification Email') }}
                             </button>
                         </div>
@@ -71,8 +71,7 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <button type="submit"
-                            class="underline text-sm text-gray-600 hover:text-gray-900">
+                        <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900">
                             {{ __('Log Out') }}
                         </button>
                     </form>
