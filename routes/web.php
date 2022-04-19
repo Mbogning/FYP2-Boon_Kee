@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenusTypeController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\UserRolesController;
@@ -61,6 +62,12 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
     // TODO ALL Roles except Customer 
     Route::match(['get', 'post'], 'admin/profile', [UserController::class, 'admin_profile'])->name('user_profile');
     Route::match(['get', 'post'], 'admin/work-schedule', [WorkScheduleController::class, 'view_schedule'])->name('view_working_schedule');
+
+    // TODO Reservation
+    Route::match(['get', 'post'], 'admin/reservation/listing', [ReservationController::class, 'listing'])->name('reservation_listing');
+    Route::match(['get', 'post'], 'admin/reservation/add', [ReservationController::class, 'add'])->name('reservation_add');
+    Route::match(['get', 'post'], 'admin/reservation/edit/{id}', [ReservationController::class, 'edit'])->name('reservation_edit');
+    Route::match(['get', 'post'], 'admin/reservation/delete', [ReservationController::class, 'delete'])->name('reservation_delete');
 });
 
 // TODO User Route

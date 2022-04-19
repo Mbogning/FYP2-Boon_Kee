@@ -128,6 +128,30 @@
                     </li>
                 @endcanany
 
+                @canany(['reservation_listing', 'view'])
+                <li>
+                    <a href="javascript:void(0)" class="side-menu menu-title">
+                        <div class="side-menu__icon"> <i data-feather="briefcase"></i> </div>
+                        <div class="side-menu__title"> Reservation <i data-feather="chevron-down" class="side-menu__sub-icon"></i>
+                        </div>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{{ route('reservation_listing') }}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                <div class="side-menu__title"> Listing </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('reservation_add') }}" class="side-menu">
+                                <div class="side-menu__icon"> <i data-feather="activity"></i> </div>
+                                <div class="side-menu__title"> New Reservation </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endcanany
+
                 <li>
                     <a href="index.html" class="side-menu">
                         <div class="side-menu__icon"> <i data-feather="box"></i> </div>
