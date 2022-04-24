@@ -26,12 +26,11 @@ The framework used in this project is <b>Laravel</b>.
 The UI framework used in this project is <b>TailwindCSS</b>
 
 <p align="center">
-<p>
   <a href="https://tailwindcss.com" target="_blank">
     <img src="https://github.com/tailwindlabs/tailwindcss/raw/master/.github/logo-dark.svg" alt="Tailwind CSS" width="350" height="70">
   </a>
 </p>
 
+<p>
 A utility-first CSS framework for rapidly building custom user interfaces.
-
 </p>
