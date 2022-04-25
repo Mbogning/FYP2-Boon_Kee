@@ -60,4 +60,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $result = $query->paginate(10);
         return $result;
     }
+
+    // ? get customer listing for reservation
+    public static function get_active_customer($customer_name = null)
+    {
+        $query = User::role('Customer');
+        $query->where('status', 'active');
+
+        if ($customer_name) {
+            $query->where('name', 'like', '%' . $customer_name . '%');
+        }
+
+        $result = $query->get();
+        return $result;
+    }
 }

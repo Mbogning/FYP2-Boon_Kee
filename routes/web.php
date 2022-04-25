@@ -79,3 +79,6 @@ Route::match(['get', 'post'], 'menus/{slug}', [MenuController::class, 'view_menu
 
 // TODO AJAX Call
 Route::match(['get', 'post'], 'ajax_get_user_roles', [UserController::class, 'search_user_role'])->name('ajax_user_roles');
+Route::match(['get', 'post'], 'ajax_get_active_customer', [UserController::class, 'ajax_get_customer'])->name('ajax_get_customer');
+Route::match(['get', 'post'], 'ajax_get_menus', [MenuController::class, 'ajax_get_menu'])->name('ajax_get_menu');
+Route::match(['get', 'post'], 'ajax_get_menu_details', [MenuController::class, 'ajax_get_menu_details'])->name('ajax_get_menu_details');

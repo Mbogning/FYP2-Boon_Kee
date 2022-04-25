@@ -87,7 +87,8 @@
                                 <button type="submit" class="mr-3 px-5 py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
                                     Save
                                 </button>
-                                <a href="{{ route('welcome') }}" class="px-5 py-2.5 bg-slate-700 text-white rounded-lg mr-3">
+                                <a href="{{ route('welcome') }}"
+                                    class="px-5 py-2.5 bg-slate-700 text-white rounded-lg mr-3">
                                     Cancel
                                 </a>
                                 <div class="block sm:hidden">
@@ -102,11 +103,20 @@
                         </form>
                     </div>
                     <div id="order-history"
-                        class="bg-[#EEF0F4] h-full w-ful p-10 rounded-xl shadow-lg tab animate__animated animate__backInUp">
+                        class="bg-white/60 backdrop-blur-md h-full w-ful p-10 rounded-xl shadow-lg tab animate__animated animate__backInUp">
                         <div class="mb-5">
                             <h1 class="underline font-bold text-2xl">
                                 Reservation History
                             </h1>
+                            <div class="mb-5">
+                                @if ($reservation_history)
+                                    @foreach ($reservation_history as $key => $reservation)
+                                    <div class="">
+                                        
+                                    </div>
+                                    @endforeach
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reservation;
 use App\Models\User;
 use App\Models\WorkSchedule;
 use Illuminate\Http\Request;
@@ -237,7 +238,7 @@ class UserController extends Controller
         $selected_date = null;
         $all_schedule = WorkSchedule::query()->where('status', 'active')->get();
         if ($request->isMethod('post')) {
-            $selected_date = WorkSchedule::query()->where('status', 'active')->where('work_date', $request->input('date'))->with(['role','user'])->get();
+            $selected_date = WorkSchedule::query()->where('status', 'active')->where('work_date', $request->input('date'))->with(['role', 'user'])->get();
             return ['date' => $request->input('date'), 'result' => $selected_date];
             // return 'returning post result '. $request->input('date');
         }
@@ -273,6 +274,7 @@ class UserController extends Controller
         }
     }
 
+    // ? AJAX Call
     public function search_user_role(Request $request)
     {
         if ($request->isMethod('post')) {
@@ -286,6 +288,25 @@ class UserController extends Controller
                 return ['status' => 'true', 'data' => $arr];
             } else {
                 return ['status' => 'false', 'data' => ''];
+            }
+        }
+    }
+
+    public function ajax_get_customer(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $arr = [];
+            $customer_name = $request->input('customer_name');
+            $customer = User::get_active_customer($customer_name);
+
+            if ($customer) {
+                foreach ($customer as $key => $value) {
+                    $arr[$key] = ['$id' => 'select-state-opt-1', '$order' => 1, 'id' => $value->id, 'label' => $value->name];
+                }
+
+                return ['status' => true, 'list' => $arr];
+            } else {
+                return ['status' => false];
             }
         }
     }
@@ -325,7 +346,8 @@ class UserController extends Controller
 
         return view('guest.user.profile', [
             'user' => $user,
-            'gender' => ['male' => 'Male', 'female' => 'Female']
+            'gender' => ['male' => 'Male', 'female' => 'Female'],
+            'reservation_history' => Reservation::reservation_history()
         ])->withErrors($validate);
     }
 }

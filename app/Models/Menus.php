@@ -89,4 +89,16 @@ class Menus extends Model
 
         return $result;
     }
+
+    public static function get_menu_by_name($name)
+    {
+        $result = null;
+        $menu = Menus::query();
+        $menu->where('name', 'like', '%' . $name . '%');
+        $menu->where('status', 'active');
+        $result = $menu->get();
+
+        return $result;
+    }
+
 }

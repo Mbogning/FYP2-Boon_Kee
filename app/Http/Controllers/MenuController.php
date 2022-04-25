@@ -171,4 +171,35 @@ class MenuController extends Controller
             'imgs' => Menus::get_all_menu_img()
         ]);
     }
+
+    // TODO AJAX Call
+    public function ajax_get_menu(Request $request)
+    {
+        $arr = [];
+        if ($request->isMethod('post')) {
+            $name = $request->input('menu_name');
+            $menu = Menus::get_menu_by_name($name);
+            if ($menu) {
+                foreach ($menu as $key => $value) {
+                    $arr[$key] = ['id' => $value->id, 'label' => $value->name];
+                }
+
+                return ['status' => true, 'result' => $arr];
+            } else {
+                return ['status' => false];
+            }
+        }
+    }
+
+    public function ajax_get_menu_details(Request $request)
+    {
+        $menu = "";
+        if ($request->isMethod('post')) {
+            $menu_id = $request->input('menu_id');
+            $menu = Menus::find($menu_id);
+            if ($menu) {
+                return $menu;
+            }
+        }
+    }
 }
