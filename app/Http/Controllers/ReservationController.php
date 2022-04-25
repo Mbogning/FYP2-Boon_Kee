@@ -66,7 +66,14 @@ class ReservationController extends Controller
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);
+
+                    $total_amount += $menu->price * $quantities[$i];
                 }
+
+                $reservation->update([
+                    'reservation_total_amount' => $total_amount,
+                    'updated_at' => now()
+                ]);
 
                 Session::flash('success', 'Successfully created a new reservation for ' . $customer->name);
                 return redirect()->route('reservation_listing');
