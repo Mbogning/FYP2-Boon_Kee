@@ -17,10 +17,12 @@
             <div>
                 <h1 class="font-bold flex justify-start items-center">
                     Reservation listing
-                    <a href="{{ route('reservation_add') }}"
-                        class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white py-1.5 px-3 rounded-md ml-2 text-xs items-center flex justify-center">
-                        <i class="bx bx-plus bx-xs mr-1"></i> ADD
-                    </a>
+                    @can('reservation_add')
+                        <a href="{{ route('reservation_add') }}"
+                            class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white py-1.5 px-3 rounded-md ml-2 text-xs items-center flex justify-center">
+                            <i class="bx bx-plus bx-xs mr-1"></i> ADD
+                        </a>
+                    @endcan
                 </h1>
             </div>
         </div>
@@ -68,7 +70,8 @@
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                         <b>{{ $reservation->customer->name }}</b><br>
-                                        Guest: <p class="inline">{{ $reservation->reservation_total_guest }}</p><br>
+                                        Guest: <p class="inline">{{ $reservation->reservation_total_guest }}</p>
+                                        <br>
                                         <b>Special Remarks: </b><br>
                                         <span>
                                             {{ $reservation->reservation_remarks }}
@@ -86,10 +89,17 @@
                                         {!! $status !!}<br>
                                     </td>
                                     <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                        <a href="{{ route('reservation_edit', $reservation->id) }}"
-                                            class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
-                                            Edit
-                                        </a>
+                                        @role('Admin')
+                                            <a href="{{ route('reservation_edit', $reservation->id) }}"
+                                                class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                                Edit
+                                            </a>
+                                        @else
+                                            <a href="{{ route('reservation_update', $reservation->id) }}"
+                                                class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                                Edit
+                                            </a>
+                                        @endrole
                                         <button
                                             class="text-red-500 hover:text-white border border-red-500 hover:bg-red-400 font-medium rounded-md text-xs px-3 py-1.5 text-center mr-2 mb-2">
                                             Delete
@@ -99,7 +109,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td>No record found</td>
+                                <td class="text-center p-5" colspan="5">No record found</td>
                             </tr>
                         @endif
                     </tbody>

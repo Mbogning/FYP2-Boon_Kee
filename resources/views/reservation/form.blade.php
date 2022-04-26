@@ -35,7 +35,7 @@
         <div class="grid">
             <form action="{{ $submit }}" method="POST">
                 @csrf
-                <div class="grid grid-cols-2 gap-5 bg-white shadow-lg rounded-lg p-5 auto-rows-max">
+                <div class="grid grid-cols-2 gap-10 bg-white shadow-lg rounded-lg p-8 auto-rows-max">
                     <div class="grid gap-3">
                         <div class="mb-3">
                             <label for="" class="inline-block mb-3">Customer Name: <span
@@ -50,11 +50,13 @@
                             <label for="" class="inline-block mb-3">Number of People: <span
                                     class="text-red-600">*</span></label>
                             <input type="number" name="number_of_people"
-                                class="block w-full text-sm rounded-lg border-gray-400" required>
+                                class="block w-full text-sm rounded-lg border-gray-400" required
+                                value="{{ @$reservation->reservation_total_guest }}">
                         </div>
                         <div class="mb-3">
                             <label for="" class="inline-block mb-3">Remarks: </label>
-                            <textarea name="remarks" class="block w-full text-sm rounded-lg border-gray-400 p-3 h-20"></textarea>
+                            <textarea name="remarks"
+                                class="block w-full text-sm rounded-lg border-gray-400 p-3 h-20">{{ @$reservation->reservation_remarks }}</textarea>
                         </div>
                     </div>
                     <div class="grid gap-3">
@@ -62,13 +64,15 @@
                             <label for="" class="inline-block mb-3">Reservation Date: <span
                                     class="text-red-600">*</span></label>
                             <input type="date" name="reservation_date"
-                                class="block w-full text-sm rounded-lg border-gray-400" required>
+                                class="block w-full text-sm rounded-lg border-gray-400" required
+                                value="{{ @$reservation->reservation_date }}">
                         </div>
                         <div class="mb-3">
                             <label for="" class="inline-block mb-3">Reservation Time: <span
                                     class="text-red-600">*</span></label>
                             <input type="time" name="reservation_time"
-                                class="block w-full text-sm rounded-lg border-gray-400" required>
+                                class="block w-full text-sm rounded-lg border-gray-400" required
+                                value="{{ @$reservation->reservation_time }}">
                         </div>
                         <div class="mb-3">
                             <label for="" class="inline-block mb-3">Reservation Status: <span
@@ -84,7 +88,7 @@
 
                     </div>
                 </div>
-                <div class="grid gap-5 bg-white shadow-lg rounded-lg p-5 mt-5">
+                <div class="grid gap-10 bg-white shadow-lg rounded-lg p-8 mt-5">
                     <div class="grid gap-3">
                         <div class="mb-3">
                             <label for="" class="font-bold">Orders</label>
@@ -102,6 +106,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @if ($title == 'Edit' && $reservation->order)
+                                            @foreach ($reservation->order as $key => $order)
+                                                <tr>
+                                                    <td
+                                                        class='px-6 py-4 font-medium text-gray-900 text-center whitespace-nowrap'>
+                                                        {{ $key + 1 }}
+                                                    </td>
+                                                    <td class='text-center'>
+                                                        {{ $order->menu->name }}
+                                                        <input type='hidden' name='menu_id[]' value='{{ $order->menu_id }}'>
+                                                    </td>
+                                                    <td class='text-center'>
+                                                        <input type='number' name='quantity[]'
+                                                            class='w-full text-sm rounded-lg border-gray-400 text-center'
+                                                            id='cal_total_price' value="{{ @$order->order_quantity }}">
+                                                    </td>
+                                                    <td class='text-center'>
+                                                        RM {{ $order->menu->price }}
+                                                        <input type="hidden" id="price"
+                                                            value="{{ $order->menu->price }}">
+                                                    </td>
+                                                    <td class='text-center'>
+                                                        <input type='number' id='total_price' readonly
+                                                            class='w-1/2 text-center text-sm rounded-lg border-none total_price'
+                                                            value="{{ @$order->order_price }}">
+                                                    </td>
+                                                    <td class='text-center'>
+                                                        <button type='button' id='delete_order'
+                                                            class='bx bx-trash text-xl text-red-400'></button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                         <tr id="insert_b4"></tr>
                                     </tbody>
                                 </table>
@@ -123,7 +160,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid gap-5 bg-white shadow-lg rounded-lg p-5 mt-5">
+                <div class="grid gap-10 bg-white shadow-lg rounded-lg p-8 mt-5">
                     <div class="mb-3">
                         <button class="px-3 py-2.5 bg-blue-600 text-white rounded-lg" type="submit">Submit</button>
                         <a href="{{ route('reservation_listing') }}"
@@ -233,7 +270,7 @@
                     order +=
                         "<td class='text-center'><input type='number' id='total_price' readonly class='w-1/2 text-center text-sm rounded-lg border-none total_price'></td>"
                     order +=
-                        "<td class='text-center'><button type='button' id='delete_order' class='bx bx-trash text-xl text-red-400'></button></i></td></tr>";
+                        "<td class='text-center'><button type='button' id='delete_order' class='bx bx-trash text-xl text-red-400'></button></td></tr>";
 
                     $(order).insertBefore("#insert_b4");
                     add_order.clear();
@@ -247,6 +284,7 @@
 
         $(document).on('click', '#delete_order', function() {
             $(this).parent().parent().remove();
+            calculate_total_sum();
         });
 
         $(document).on('keyup', '#cal_total_price', function() {

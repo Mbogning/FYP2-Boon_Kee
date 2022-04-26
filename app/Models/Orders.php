@@ -16,6 +16,23 @@ class Orders extends Model
         'order_price',
     ];
 
+    public static function get_all_order_by_reservation($reservation_id)
+    {
+        $query = Orders::query();
+        $query->where('reservation_id', $reservation_id);
+        $result = $query->pluck('menu_id')->toArray();
+        return $result;
+    }
+
+    public static function get_order_by_reservation_menu($reservation_id, $menu_id)
+    {
+        $query = Orders::query();
+        $query->where('reservation_id', $reservation_id);
+        $query->where('menu_id', $menu_id);
+        $result = $query->first();
+        return $result;
+    }
+
     // ? Relation
     public function reservation()
     {

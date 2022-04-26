@@ -57,6 +57,11 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
         Route::match(['get', 'post'], 'admin/menus_type/add', [MenusTypeController::class, 'add'])->name('menu_type_add');
         Route::match(['get', 'post'], 'admin/menus_type/edit/{id}', [MenusTypeController::class, 'edit'])->name('menu_type_edit');
         Route::match(['get', 'post'], 'admin/menus_type/delete', [MenusTypeController::class, 'delete'])->name('menu_type_delete');
+
+        // ? Reservation
+        Route::match(['get', 'post'], 'admin/reservation/add', [ReservationController::class, 'add'])->name('reservation_add');
+        Route::match(['get', 'post'], 'admin/reservation/edit/{id}', [ReservationController::class, 'edit'])->name('reservation_edit');
+        Route::match(['get', 'post'], 'admin/reservation/delete', [ReservationController::class, 'delete'])->name('reservation_delete');
     });
 
     // TODO ALL Roles except Customer 
@@ -65,9 +70,11 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
 
     // TODO Reservation
     Route::match(['get', 'post'], 'admin/reservation/listing', [ReservationController::class, 'listing'])->name('reservation_listing');
-    Route::match(['get', 'post'], 'admin/reservation/add', [ReservationController::class, 'add'])->name('reservation_add');
-    Route::match(['get', 'post'], 'admin/reservation/edit/{id}', [ReservationController::class, 'edit'])->name('reservation_edit');
-    Route::match(['get', 'post'], 'admin/reservation/delete', [ReservationController::class, 'delete'])->name('reservation_delete');
+
+    // TODO Chef or Waiter
+    Route::middleware('role:Waiter|Chef')->group(function () {
+        Route::match(['get', 'post'], 'admin/reservation/update/{id}', [ReservationController::class, 'update_status'])->name('reservation_update');
+    });
 });
 
 // TODO User Route
