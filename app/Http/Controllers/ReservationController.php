@@ -178,7 +178,21 @@ class ReservationController extends Controller
     }
 
     public function delete(Request $request)
-    { }
+    { 
+        $reservation = Reservation::find($request->input('reservation_id'));
+        if ($reservation) {
+            $reservation->update([
+                'reservation_status' => 'deleted',
+                'updated_at' => now()
+            ]);
+
+            Session::flash('success', 'Reservation Successfully deleted. ');
+            return redirect()->route('reservation_listing');
+        } else {
+            Session::flash('error', 'Invalid Reservation. Please try again. ');
+            return redirect()->route('reservation_listing');
+        }
+    }
 
     // TODO Staff Manage Reservation
     public function update_status(Request $request, $id)
