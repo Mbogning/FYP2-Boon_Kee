@@ -41,9 +41,14 @@
                             <label for="" class="inline-block mb-3">Customer Name: <span
                                     class="text-red-600">*</span></label>
                             <div class="mt-2">
-                                <select id="select-beast" placeholder="Select a person..." autocomplete="off"
-                                    name="customer_id" class="search_user">
-                                </select>
+                                @if ($title == 'Edit')
+                                    <b> {{ $reservation->customer->name }}</b>
+                                    <select name="" id="select-beast" class="hidden"></select>
+                                @else
+                                    <select id="select-beast" placeholder="Select a person..." autocomplete="off"
+                                        name="customer_id" class="search_user">
+                                    </select>
+                                @endif
                             </div>
                         </div>
                         <div class="mb-3">
@@ -115,7 +120,8 @@
                                                     </td>
                                                     <td class='text-center'>
                                                         {{ $order->menu->name }}
-                                                        <input type='hidden' name='menu_id[]' value='{{ $order->menu_id }}'>
+                                                        <input type='hidden' name='menu_id[]'
+                                                            value='{{ $order->menu_id }}'>
                                                     </td>
                                                     <td class='text-center'>
                                                         <input type='number' name='quantity[]'

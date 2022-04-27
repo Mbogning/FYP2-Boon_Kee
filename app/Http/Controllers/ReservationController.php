@@ -178,7 +178,7 @@ class ReservationController extends Controller
     }
 
     public function delete(Request $request)
-    { 
+    {
         $reservation = Reservation::find($request->input('reservation_id'));
         if ($reservation) {
             $reservation->update([
@@ -205,6 +205,12 @@ class ReservationController extends Controller
             return redirect()->route('reservation_listing');
         }
 
+        $menu_img = [];
+
+        foreach ($reservation->order as $key => $order) {
+            $menu_img[$order->menu->id] = Menus::get_menu_img($order->menu->slug);
+        }
+
         if ($request->isMethod('post')) {
             $validation = Validator::make($request->all(), [
                 'reservation_status' => 'required'
@@ -225,8 +231,30 @@ class ReservationController extends Controller
             'title' => 'Edit',
             'submit' => route('reservation_update', $id),
             'reservation' => $reservation,
+            'menu_img' => $menu_img,
             'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
         ])->withErrors($validation);
+    }
+
+    public function reservation_payment(Request $request, $id)
+    {
+        $reservation = Reservation::find($id);
+
+        if (!$reservation) {
+            Session::flash('error', 'Invalid Reservation');
+            return redirect()->route('reservation_listing');
+        }
+
+        $menu_img = [];
+
+        foreach ($reservation->order as $key => $order) {
+            $menu_img[$order->menu->id] = Menus::get_menu_img($order->menu->slug);
+        }
+
+        return view('reservation.view_payment', [
+            'reservation' => $reservation,
+            'menu_img' => $menu_img
+        ]);
     }
 
     // TODO Customer Reservation

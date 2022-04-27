@@ -94,6 +94,11 @@
                                                 class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
                                                 Edit
                                             </a>
+                                            @elserole('Cashier')
+                                            <a href="{{ route('reservation_payment', $reservation->id) }}"
+                                                class="border border-green-500 text-green-500 hover:text-white hover:bg-green-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                                View Payment
+                                            </a>
                                         @else
                                             <a href="{{ route('reservation_update', $reservation->id) }}"
                                                 class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
@@ -102,7 +107,7 @@
                                         @endrole
                                         <button type="button" id="delete" aria-expanded="false" aria-haspopup="true"
                                             @click="open = !open" data-id="{{ $reservation->id }}"
-                                            class="text-red-500 hover:text-white border border-red-500 hover:bg-red-400 font-medium rounded-md text-xs px-3 py-1.5 text-center mr-2 mb-2">
+                                            class="text-red-500 hover:text-white border border-red-500 hover:bg-red-500 font-medium rounded-md text-xs px-3 py-1.5 text-center mr-2 mb-2">
                                             Delete
                                         </button>
                                     </td>
@@ -164,7 +169,6 @@
                 </div>
             </div>
         </div>
-    </div>
     </div>
 @endsection
 @section('script')

@@ -16,7 +16,7 @@
                     <div class="mb-5">
                         <h1 class="text-2xl font-bold">{{ $type->name }}</h1>
                     </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-10">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-10">
                         @foreach ($menus as $menu)
                             @if ($type->id == $menu->type)
                                 <div
@@ -37,7 +37,7 @@
                                             {!! $menu->description ?? 'No Description' !!}
                                         </div>
                                         <a href="{{ route('view_menu_info', $menu->slug) }}"
-                                            class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-amber-300 rounded-lg hover:bg-amber-400 focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">
+                                            class="inline-flex items-center py-2 px-3 text-xs sm:text-sm font-medium text-center text-white bg-amber-300 rounded-lg hover:bg-amber-400 focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">
                                             View more
                                             <svg class="ml-2 -mr-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20"
                                                 xmlns="http://www.w3.org/2000/svg">

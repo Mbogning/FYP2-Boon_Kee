@@ -83,18 +83,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex mt-10">
-                                <button type="submit" class="mr-3 px-5 py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
+                            <div class="flex mt-10 justify-center">
+                                <button type="submit" class="mr-3 p-1 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
                                     Save
                                 </button>
                                 <a href="{{ route('welcome') }}"
-                                    class="px-5 py-2.5 bg-slate-700 text-white rounded-lg mr-3">
+                                    class="p-1 sm:px-5 sm:py-2.5 bg-slate-700 text-white rounded-lg mr-3">
                                     Cancel
                                 </a>
                                 <div class="block sm:hidden">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button type="submit" class="px-5 py-2.5 bg-red-400 text-white rounded-lg">
+                                        <button type="submit" class="p-1 sm:px-5 sm:py-2.5 bg-red-400 text-white rounded-lg">
                                             Log Out
                                         </button>
                                     </form>

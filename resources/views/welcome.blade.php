@@ -37,7 +37,7 @@
 
 <body class="antialiased h-full">
     <div class="fixed w-full backdrop-blur-lg bg-white/60 dark:bg-slate-800/60 z-[51]">
-        <nav class="px-5 sm:px-12 py-8 flex items-center whitespace-nowrap">
+        <nav class="px-5 sm:px-12 py-5 sm:py-8 flex items-center whitespace-nowrap">
             <div class="block sm:flex mx-auto sm:mr-20">
                 <h1 class="font-black text-2xl">
                     <a href="{{ route('welcome') }}">
@@ -129,6 +129,15 @@
     {{-- Hero --}}
     <div class="min-h-screen bg-slate-100 relative">
         @yield('content')
+    </div>
+
+    {{-- Footer --}}
+    <div class="min-h-screen bg-yellow-50 relative">
+        <div class="p-10">
+            <div>
+                This is a footer
+            </div>
+        </div>
     </div>
 
     <div class="fixed sm:hidden justify-between w-full items-center z-[55] bottom-0 bg-slate-200/60 backdrop-blur-md">

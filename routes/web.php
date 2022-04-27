@@ -75,6 +75,10 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
     Route::middleware('role:Waiter|Chef')->group(function () {
         Route::match(['get', 'post'], 'admin/reservation/update/{id}', [ReservationController::class, 'update_status'])->name('reservation_update');
     });
+
+    Route::middleware('role:Cashier')->group(function () { 
+        Route::match(['get', 'post'], 'admin/reservation/payment/{id}', [ReservationController::class, 'reservation_payment'])->name('reservation_payment');
+    });
 });
 
 // TODO User Route
