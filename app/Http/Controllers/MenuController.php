@@ -8,6 +8,7 @@ use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Gumlet\ImageResize;
 
 class MenuController extends Controller
 {
@@ -45,9 +46,12 @@ class MenuController extends Controller
                 ]);
 
                 if ($request->file('menu_img')) {
+                    $image = new ImageResize($request->file('menu_img'));
+                    $image->resize(920, 610, $allow_enlarge = True);
+
+
                     $file_name = $request->file('menu_img')->getClientOriginalName();
-                    $file = fopen($request->file('menu_img')->getPathname(), 'r');
-                    app('firebase.storage')->getBucket()->upload($file, ['name' => 'menus/' . $menu->slug . '/' . $file_name]);
+                    app('firebase.storage')->getBucket()->upload($image, ['name' => 'menus/' . $menu->slug . '/' . $file_name]);
                     $menu->update([
                         'img_name' => $file_name,
                         'updated_at' => now()
@@ -103,8 +107,12 @@ class MenuController extends Controller
                         app('firebase.storage')->getBucket()->object('menus/' . $menu->slug . '/' . $menu->img_name)->delete();
                     }
                     $file_name = $request->file('menu_img')->getClientOriginalName();
-                    $file = fopen($request->file('menu_img')->getPathname(), 'r');
-                    app('firebase.storage')->getBucket()->upload($file, ['name' => 'menus/' . $menu->slug . '/' . $file_name]);
+
+                    $image = new ImageResize($request->file('menu_img'));
+                    $image->resize(920, 610, $allow_enlarge = True);
+
+
+                    app('firebase.storage')->getBucket()->upload($image, ['name' => 'menus/' . $menu->slug . '/' . $file_name]);
                     $menu->update([
                         'img_name' => $file_name,
                         'updated_at' => now()
