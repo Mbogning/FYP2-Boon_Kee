@@ -34,6 +34,10 @@ class CustomerController extends Controller
             }
         }
 
+        if ($request->isMethod('post')) {
+            return redirect()->route('');
+        }
+
         return view('guest.cart', [
             'cart' => $cart,
             'menu' => $menu

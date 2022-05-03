@@ -5,7 +5,7 @@
         <div class="p-5 sm:p-10 min-h-screen">
             <div class="pt-[5.75rem]">
                 <div class="sm:px-20 2xl:px-40 py-5 sm:py-10">
-                    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                    <div class="relative overflow-x-auto shadow-md sm:rounded-xl">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 grid sm:table">
                             <thead
                                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 hidden sm:table-header-group">
@@ -22,7 +22,7 @@
                                     $a = 3;
                                     $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
                                 @endphp
-                                @if (!empty($cart))
+                                @if (!empty($cart) && $cart->isNotEmpty())
                                     @foreach ($cart as $key => $item)
                                         <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 grid sm:table-row grid-cols-3"
                                             data-menuid="{{ $item->menu_id }}">
@@ -70,6 +70,8 @@
                                             <td class="px-6 py-5 font-medium text-gray-900 dark:text-white whitespace-nowrap text-center col-start-2 row-start-2 flex sm:table-cell items-center"
                                                 id="total_sum_{{ $item->menu_id }}">
                                             </td>
+                                            <input type="hidden" class="total_sum"
+                                                id="total_sum_input_{{ $item->menu_id }}">
                                         </tr>
                                     @endforeach
                                 @else
@@ -82,7 +84,20 @@
                         </table>
                     </div>
                     <div class="mt-5 border-t">
-
+                        <div class="flex justify-between p-5">
+                            <div>Total:</div>
+                            <div id="subtotal" class=" font-bold"></div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="flex justify-end p-5">
+                            <form action="{{ route('cart') }}">
+                                @csrf
+                                <button class="bg-amber-300 p-3 rounded-lg hover:shadow-md duration-150 hover:rounded-none">
+                                    Proceed to checkout
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,6 +108,7 @@
     <script>
         $(document).ready(function() {
             calculate_sum_price()
+            calculate_grandtotal()
         })
 
         $(document).on('click', 'button[data-action="increment"]', function() {
@@ -103,8 +119,10 @@
             let menu_id = $(this).parent().parent().parent().data('menuid');
             $(this).parent().parent().parent().find('td#total_sum_' + menu_id).html('RM ' + (menu_price * value)
                 .toFixed(2))
+            $(this).parent().parent().parent().find('.total_sum').val(menu_price * value)
 
             update_cart(menu_id, value)
+            calculate_grandtotal()
         })
 
         $(document).on('click', 'button[data-action="decrement"]', function() {
@@ -124,8 +142,10 @@
             let menu_id = $(this).parent().parent().parent().data('menuid');
             $(this).parent().parent().parent().find('td#total_sum_' + menu_id).html('RM ' + (menu_price * value)
                 .toFixed(2))
+            $(this).parent().parent().parent().find('.total_sum').val(menu_price * value)
 
             update_cart(menu_id, value)
+            calculate_grandtotal()
         })
 
         $(document).on('click', '.remove_cart_btn', function() {
@@ -135,6 +155,7 @@
                 $(this).parent().parent().remove()
                 let menu_id = $(this).parent().parent().data('menuid');
                 update_cart(menu_id, 0)
+                calculate_grandtotal()
             }
         })
 
@@ -150,6 +171,7 @@
                 let sum = menu_price * quantity;
 
                 $(this).parent().parent().parent().find('#total_sum_' + menu_id).html('RM ' + sum.toFixed(2));
+                $(this).parent().parent().parent().find('#total_sum_input_' + menu_id).val(sum.toFixed(2));
             })
         }
 
@@ -169,6 +191,15 @@
 
                 }
             })
+        }
+
+        function calculate_grandtotal() {
+            total_sum = $('.total_sum').map((_, el) => el.value).get();
+            // console.log(total_sum);
+            let price = total_sum.reduce((p, c) => {
+                return p + (parseFloat(c) || 0);
+            }, 0);
+            $('#subtotal').html('RM ' + price.toFixed(2));
         }
     </script>
 @endsection
