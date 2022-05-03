@@ -37,6 +37,34 @@ class Reservation extends Model
         return $result;
     }
 
+    public static function get_latest_pending_reservation_by_customer($customer_id)
+    {
+        $query = Reservation::query();
+        $query->where('customer_id', $customer_id);
+        $query->where('reservation_status', 'Pending');
+        $query->orderBy('created_at', 'desc');
+        $result = $query->first();
+        return $result;
+    }
+
+    public static function get_menu_in_cart()
+    {
+        $cart = [];
+        $user = auth()->user();
+        $reservation = Reservation::get_latest_pending_reservation_by_customer($user->id);
+
+        if ($reservation) {
+            $orders = Orders::query()->where('reservation_id', $reservation->id)->get();
+
+            foreach ($orders as $key => $value) {
+                $menu = Menus::find($value->menu_id);
+                $cart[$value->menu_id] = $menu->name;
+            }
+
+            return $cart;
+        }
+    }
+
     // ? Relations
     public function customer()
     {

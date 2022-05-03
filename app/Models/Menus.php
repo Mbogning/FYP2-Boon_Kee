@@ -101,4 +101,20 @@ class Menus extends Model
         return $result;
     }
 
+    public static function get_menu_by_id_with_img($id)
+    {
+        $result = null;
+        $query = Menus::query();
+        $query->where('id', $id);
+        $menu = $query->first();
+        if ($menu->img_name) {
+            $img = app('firebase.storage')->getBucket()->object('menus/' . $menu->slug . '/' . $menu->img_name);
+            $expiresAt = new \DateTime('tomorrow');
+            $result = $img->signedUrl($expiresAt);
+        } else {
+            $result = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+        }
+
+        return ['menu' => $menu, 'img' => $result];
+    }
 }

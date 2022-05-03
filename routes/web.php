@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenusTypeController;
 use App\Http\Controllers\ReservationController;
@@ -76,7 +77,7 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
         Route::match(['get', 'post'], 'admin/reservation/update/{id}', [ReservationController::class, 'update_status'])->name('reservation_update');
     });
 
-    Route::middleware('role:Cashier')->group(function () { 
+    Route::middleware('role:Cashier')->group(function () {
         Route::match(['get', 'post'], 'admin/reservation/payment/{id}', [ReservationController::class, 'reservation_payment'])->name('reservation_payment');
     });
 });
@@ -85,7 +86,8 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
 Route::match(['get', 'post'], 'profile', [UserController::class, 'user_profile'])->name('profile')->middleware(['auth', 'verified']);
 Route::match(['get', 'post'], 'menus', [MenuController::class, 'view_menus'])->name('view_menus');
 Route::match(['get', 'post'], 'menus/{slug}', [MenuController::class, 'view_menu_info'])->name('view_menu_info');
-// Route::get('/about_us');
+Route::match(['get', 'post'], 'about-us', [CustomerController::class, 'about_us'])->name('about_us');
+Route::match(['get', 'post'], 'cart', [CustomerController::class, 'cart'])->name('cart')->middleware(['auth', 'verified']);
 
 
 // TODO AJAX Call
@@ -93,3 +95,5 @@ Route::match(['get', 'post'], 'ajax_get_user_roles', [UserController::class, 'se
 Route::match(['get', 'post'], 'ajax_get_active_customer', [UserController::class, 'ajax_get_customer'])->name('ajax_get_customer');
 Route::match(['get', 'post'], 'ajax_get_menus', [MenuController::class, 'ajax_get_menu'])->name('ajax_get_menu');
 Route::match(['get', 'post'], 'ajax_get_menu_details', [MenuController::class, 'ajax_get_menu_details'])->name('ajax_get_menu_details');
+Route::match(['get', 'post'], 'ajax_add_to_cart', [ReservationController::class, 'ajax_add_to_cart'])->name('ajax_add_to_cart');
+Route::match(['get', 'post'], 'ajax_update_cart', [ReservationController::class, 'ajax_update_cart'])->name('ajax_update_cart');

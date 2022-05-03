@@ -33,6 +33,14 @@ class Orders extends Model
         return $result;
     }
 
+    public static function get_all_orders_by_reservation_id($reservation_id)
+    {
+        $query = Orders::query();
+        $query->where('reservation_id', $reservation_id);
+        $result = $query->get();
+        return $result;
+    }
+
     // ? Relation
     public function reservation()
     {

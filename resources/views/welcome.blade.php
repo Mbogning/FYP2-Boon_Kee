@@ -51,7 +51,7 @@
                         <a href="{{ route('view_menus') }}" class="text-sm font-bold">MENU</a>
                     </li>
                     <li class="mr-8">
-                        <a href="" class="text-sm font-bold">ABOUT US</a>
+                        <a href="{{ route('about_us') }}" class="text-sm font-bold">ABOUT US</a>
                     </li>
                 </ul>
                 <ul class="flex">
@@ -64,7 +64,7 @@
                             </li>
                         @endrole
                         <li class="mr-8">
-                            <a href="">
+                            <a href="{{ route('cart') }}">
                                 <i class='bx bxs-cart'></i>
                             </a>
                         </li>
@@ -140,7 +140,7 @@
         </div>
     </div>
 
-    <div class="fixed sm:hidden justify-between w-full items-center z-[55] bottom-0 bg-slate-200/60 backdrop-blur-md">
+    <div class="fixed sm:hidden justify-between w-full items-center z-[55] bottom-0 bg-white/60 backdrop-blur-md">
         <ul class="flex justify-between p-3 max-w-xs mx-auto">
             <li class="text-center px-3">
                 <a href="{{ route('view_menus') }}" class="text-sm font-bold">
@@ -149,7 +149,7 @@
                 </a>
             </li>
             <li class="text-center px-3">
-                <a href="">
+                <a href="{{ route('cart') }}">
                     <i class='bx bxs-cart inline-block'></i>
                     <span class="block text-xs">Cart</span>
                 </a>

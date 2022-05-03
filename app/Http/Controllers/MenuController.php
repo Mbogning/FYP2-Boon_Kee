@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menus;
 use App\Models\MenusType;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -147,11 +148,13 @@ class MenuController extends Controller
     {
         $menus = Menus::get_active_menu();
         $menu_type = MenusType::get_menu_types();
+        $cart = Reservation::get_menu_in_cart();
 
         return view('guest.menu.list', [
             'menus' => $menus,
             'menu_type' => $menu_type,
-            'imgs' => Menus::get_all_menu_img()
+            'imgs' => Menus::get_all_menu_img(),
+            'cart' => $cart
         ]);
     }
 
@@ -164,11 +167,14 @@ class MenuController extends Controller
             return redirect()->route('view_menus');
         }
 
+        $cart = Reservation::get_menu_in_cart();
+
         return view('guest.menu.info', [
             'menu' => $menu,
             'more_menu' => Menus::get_all_except($slug),
             'menu_img' => Menus::get_menu_img($slug),
-            'imgs' => Menus::get_all_menu_img()
+            'imgs' => Menus::get_all_menu_img(),
+            'cart' => $cart
         ]);
     }
 

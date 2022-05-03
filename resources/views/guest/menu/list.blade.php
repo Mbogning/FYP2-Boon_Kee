@@ -9,7 +9,7 @@
     <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen">
         <div class="">
             @php
-                $url = "https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg";
+                $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
             @endphp
             @foreach ($menu_type as $type)
                 <div class="mt-20 px-0 py-5 sm:p-5 md:p-10">
@@ -20,22 +20,22 @@
                         @foreach ($menus as $menu)
                             @if ($type->id == $menu->type)
                                 <div
-                                    class="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg">
+                                    class="relative max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg">
                                     <a href="{{ route('view_menu_info', $menu->slug) }}">
-                                        <img class="rounded-t-lg"
-                                            src="{{ @$imgs[$menu->slug] ?? $url }}"
-                                            alt="" />
+                                        <img class="rounded-t-lg" src="{{ @$imgs[$menu->slug] ?? $url }}" alt="" />
                                     </a>
-                                    <div class=" p-5">
+                                    <div class="relative p-5 pb-10">
                                         <a href="{{ route('view_menu_info', $menu->slug) }}">
                                             <h5
                                                 class="mb-2 text-md sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                                                 {{ $menu->name }}</h5>
                                         </a>
                                         <div
-                                            class="mb-3 text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-400 line-clamp-3 overflow-hidden">
+                                            class="mb-3 text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-400 line-clamp-2 overflow-hidden pb-5">
                                             {!! $menu->description ?? 'No Description' !!}
                                         </div>
+                                    </div>
+                                    <div class="p-5 sm:flex justify-between absolute bottom-0 w-full">
                                         <a href="{{ route('view_menu_info', $menu->slug) }}"
                                             class="inline-flex items-center py-2 px-3 text-xs sm:text-sm font-medium text-center text-white bg-amber-300 rounded-lg hover:bg-amber-400 focus:ring-4 focus:outline-none focus:ring-amber-300 dark:bg-amber-600 dark:hover:bg-amber-700 dark:focus:ring-amber-800">
                                             View more
@@ -46,6 +46,14 @@
                                                     clip-rule="evenodd"></path>
                                             </svg>
                                         </a>
+                                        <button
+                                            class="hidden sm:flex items-center py-2 px-3 bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg text-xs sm:text-sm add_to_cart_btn"
+                                            data-id="{{ $menu->id }}" @if (@$cart[$menu->id]) disabled @endif>
+                                            <i class='bx bx-check-circle {{ @$cart[$menu->id] ? 'block' : 'hidden' }}'>
+                                            </i>
+                                            <i class='bx bx-cart-add {{ @$cart[$menu->id] ? 'hidden' : 'block' }} '>
+                                            </i>
+                                        </button>
                                     </div>
                                 </div>
                             @endif
@@ -55,4 +63,35 @@
             @endforeach
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function() {
+
+        })
+
+        $(document).on('click', '.add_to_cart_btn', function() {
+            let menu_id = $(this).data('id');
+            add_to_cart(menu_id);
+        })
+
+        function add_to_cart(menu_id) {
+            $.ajax({
+                url: "{{ route('ajax_add_to_cart') }}",
+                method: "Post",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'menu_id': menu_id
+                },
+                success: (s) => {
+                    $('button[data-id="' + menu_id + '"]').prop('disabled', true)
+                    $('button[data-id="' + menu_id + '"]').find('.bx-cart-add').hide()
+                    $('button[data-id="' + menu_id + '"]').find('.bx-check-circle').show()
+                },
+                error: (e) => {
+                    console.log(e);
+                }
+            })
+        }
+    </script>
 @endsection

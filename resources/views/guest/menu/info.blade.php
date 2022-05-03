@@ -17,8 +17,16 @@
         {{-- Description --}}
         <div class="pt-5 sm:p-10 sm:relative sm:bg-white sm:rounded-xl sm:-top-20 sm:w-3/4 sm:mx-auto sm:shadow-lg">
             <div>
-                <div class="mb-5">
-                    <h1 class="text-5xl font-bold">{{ $menu->name }}</h1>
+                <div class="mb-5 flex justify-between items-center">
+                    <h1 class="text-2xl sm:text-5xl font-bold">{{ $menu->name }}</h1>
+                    <button
+                        class="hidden sm:flex items-center py-2 px-3 bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg text-xs sm:text-sm add_to_cart_btn"
+                        data-id="{{ $menu->id }}" @if (@$cart[$menu->id]) disabled @endif>
+                        <i class='bx bx-check-circle {{ @$cart[$menu->id] ? 'block' : 'hidden' }}'>
+                        </i>
+                        <i class='bx bx-cart-add {{ @$cart[$menu->id] ? 'hidden' : 'block' }} '>
+                        </i>
+                    </button>
                 </div>
                 <div class="mb-5">
                     <p class="text-md">
@@ -30,6 +38,19 @@
                 </div>
             </div>
         </div>
+        <div class="sm:p-10 sm:hidden mt-5">
+            <button
+                class="w-full items-center p-3 bg-yellow-400 hover:bg-yellow-500 text-white rounded-lg text-xs sm:text-sm add_to_cart_btn"
+                data-id="{{ $menu->id }}" @if (@$cart[$menu->id]) disabled @endif>
+                <span id="add_to_cart_txt">
+                    @if (@$cart[$menu->id])
+                        <a href="{{ route('cart') }}">In Cart</a>
+                    @else
+                        Add to cart
+                    @endif
+                </span>
+            </button>
+        </div>
         {{-- More foods --}}
         <div class="py-5 max-w-[20rem] sm:max-w-xl">
             <div class="mb-5">
@@ -39,7 +60,7 @@
             </div>
             <div class="flex overflow-x-auto snap-x">
                 @foreach ($more_menu as $more)
-                    <div class="mr-3 flex-none p-5 w-1/2 snap-center">
+                    <div class="sm:mr-3 flex-none p-5 w-1/2 snap-center hover:scale-105 duration-200">
                         <a href="{{ route('view_menu_info', $more->slug) }}">
                             <img src="{{ @$imgs[$more->slug] ?? $url }}" class="rounded-xl brightness-75" />
                         </a>
@@ -52,4 +73,32 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).on('click', '.add_to_cart_btn', function() {
+            let menu_id = $(this).data('id');
+            add_to_cart(menu_id);
+        })
+
+        function add_to_cart(menu_id) {
+            $.ajax({
+                url: "{{ route('ajax_add_to_cart') }}",
+                method: "Post",
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'menu_id': menu_id
+                },
+                success: (s) => {
+                    $('button[data-id="' + menu_id + '"]').prop('disabled', true)
+                    $('button[data-id="' + menu_id + '"]').find('.bx-cart-add').hide()
+                    $('button[data-id="' + menu_id + '"]').find('.bx-check-circle').show()
+                    $('#add_to_cart_txt').html('In cart')
+                },
+                error: (e) => {
+                    console.log(e);
+                }
+            })
+        }
+    </script>
 @endsection

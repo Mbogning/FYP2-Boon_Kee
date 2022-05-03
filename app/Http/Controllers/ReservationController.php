@@ -260,4 +260,75 @@ class ReservationController extends Controller
     // TODO Customer Reservation
     public function add_reservation_cus(Request $request)
     { }
+
+    public function ajax_add_to_cart(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $user = auth()->user();
+            $order = $request->input('menu_id');
+
+            $check_reservation = Reservation::get_latest_pending_reservation_by_customer($user->id);
+            if ($check_reservation) {
+                // ? update reservation info & order info
+                $reservation = Reservation::find($check_reservation->id);
+                $menu = Menus::find($order);
+
+                Orders::create([
+                    'reservation_id' => $reservation->id,
+                    'menu_id' => $menu->id,
+                    'order_quantity' => 1,
+                    'order_price' => $menu->price,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            } else {
+                // ? create new reservation & order 
+                $new_reservation = Reservation::create([
+                    'customer_id' => $user->id,
+                    'reservation_status' => 'Pending',
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                $menu = Menus::find($order);
+
+                Orders::create([
+                    'reservation_id' => $new_reservation->id,
+                    'menu_id' => $menu->id,
+                    'order_quantity' => 1,
+                    'order_price' => $menu->price,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+
+            return ['status' => 'success'];
+        }
+    }
+
+    public function ajax_update_cart(Request $request)
+    {
+        if ($request->isMethod('post')) {
+            $user = auth()->user();
+            $menu_id = $request->input('menu_id');
+            $quantity = $request->input('quantity');
+
+            $reservation = Reservation::get_latest_pending_reservation_by_customer($user->id);
+            $orders = Orders::get_order_by_reservation_menu($reservation->id, $menu_id);
+
+            $menu = Menus::find($menu_id);
+
+            $update_order = Orders::find($orders->id);
+
+            if ($quantity > 0) {
+                $update_order->update([
+                    'order_quantity' => $quantity,
+                    'order_price' => $menu->price * $quantity,
+                    'updated_at' => now()
+                ]);
+            } else {
+                Orders::query()->where('id', $orders->id)->delete();
+            }
+        }
+    }
 }
