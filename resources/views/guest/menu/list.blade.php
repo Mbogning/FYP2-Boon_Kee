@@ -76,22 +76,26 @@
         })
 
         function add_to_cart(menu_id) {
-            $.ajax({
+            @if (auth()->check())
+                $.ajax({
                 url: "{{ route('ajax_add_to_cart') }}",
                 method: "Post",
                 data: {
-                    '_token': "{{ csrf_token() }}",
-                    'menu_id': menu_id
+                '_token': "{{ csrf_token() }}",
+                'menu_id': menu_id
                 },
                 success: (s) => {
-                    $('button[data-id="' + menu_id + '"]').prop('disabled', true)
-                    $('button[data-id="' + menu_id + '"]').find('.bx-cart-add').hide()
-                    $('button[data-id="' + menu_id + '"]').find('.bx-check-circle').show()
+                $('button[data-id="' + menu_id + '"]').prop('disabled', true)
+                $('button[data-id="' + menu_id + '"]').find('.bx-cart-add').hide()
+                $('button[data-id="' + menu_id + '"]').find('.bx-check-circle').show()
                 },
                 error: (e) => {
-                    console.log(e);
+                console.log(e);
                 }
-            })
+                })
+            @else
+                window.location.href="{{ route('login') }}"
+            @endif
         }
     </script>
 @endsection

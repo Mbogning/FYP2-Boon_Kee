@@ -78,7 +78,11 @@
     <script>
         $(document).on('click', '.add_to_cart_btn', function() {
             let menu_id = $(this).data('id');
-            add_to_cart(menu_id);
+            @if (auth()->check())
+                add_to_cart(menu_id);
+            @else
+                window.location.href = "{{ route('login') }}"
+            @endif
         })
 
         function add_to_cart(menu_id) {

@@ -156,7 +156,10 @@ class MenuController extends Controller
     {
         $menus = Menus::get_active_menu();
         $menu_type = MenusType::get_menu_types();
-        $cart = Reservation::get_menu_in_cart();
+        $cart = null;
+        if (auth()->user()) {
+            $cart = Reservation::get_menu_in_cart();
+        }
 
         return view('guest.menu.list', [
             'menus' => $menus,
@@ -169,13 +172,16 @@ class MenuController extends Controller
     public function view_menu_info($slug)
     {
         $menu = Menus::get_by_slug($slug);
+        $cart = null;
 
         if (!$menu) {
             Session::flash('error', 'No Item Found. The item has been removed or deactive. ');
             return redirect()->route('view_menus');
         }
 
-        $cart = Reservation::get_menu_in_cart();
+        if (auth()->user()) {
+            $cart = Reservation::get_menu_in_cart();
+        }
 
         return view('guest.menu.info', [
             'menu' => $menu,
