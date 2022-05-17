@@ -77,7 +77,7 @@
                             $i = 0;
                         @endphp
                         @foreach ($users as $user)
-                            <tr class="bg-white dark:bg-gray-800 dark:border-gray-700">
+                            <tr class="bg-white dark:bg-zinc-800 dark:border-gray-700">
                                 <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                                     {{ $i + $users->firstItem() }}
                                 </td>

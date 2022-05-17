@@ -6,7 +6,7 @@
     </style>
 @endsection
 @section('content')
-    <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen">
+    <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen dark:bg-zinc-800">
         <div class="">
             @php
                 $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
@@ -14,13 +14,13 @@
             @foreach ($menu_type as $type)
                 <div class="mt-20 px-0 py-5 sm:p-5 md:p-10">
                     <div class="mb-5">
-                        <h1 class="text-2xl font-bold">{{ $type->name }}</h1>
+                        <h1 class="text-2xl font-bold dark:text-gray-400">{{ $type->name }}</h1>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-10">
                         @foreach ($menus as $menu)
                             @if ($type->id == $menu->type)
                                 <div
-                                    class="relative max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg">
+                                    class="relative max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-700 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg">
                                     <a href="{{ route('view_menu_info', $menu->slug) }}">
                                         <img class="rounded-t-lg" src="{{ @$imgs[$menu->slug] ?? $url }}" alt="" />
                                     </a>
@@ -31,7 +31,7 @@
                                                 {{ $menu->name }}</h5>
                                         </a>
                                         <div
-                                            class="mb-3 text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-400 line-clamp-2 overflow-hidden pb-5">
+                                            class="mb-3 text-xs sm:text-sm font-normal text-gray-700 dark:text-gray-400 line-clamp-1 overflow-hidden pb-6">
                                             {!! $menu->description ?? 'No Description' !!}
                                         </div>
                                     </div>

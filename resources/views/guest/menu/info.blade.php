@@ -7,7 +7,7 @@
     @php
     $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
     @endphp
-    <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen">
+    <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen dark:bg-zinc-800">
         {{-- Hero --}}
         <div class="h-full">
             <div class="mt-20">
@@ -15,7 +15,7 @@
             </div>
         </div>
         {{-- Description --}}
-        <div class="pt-5 sm:p-10 sm:relative sm:bg-white sm:rounded-xl sm:-top-20 sm:w-3/4 sm:mx-auto sm:shadow-lg">
+        <div class="pt-5 sm:p-10 sm:relative sm:bg-white sm:rounded-xl sm:-top-20 sm:w-3/4 sm:mx-auto sm:shadow-lg dark:sm:bg-zinc-700 dark:text-white">
             <div>
                 <div class="mb-5 flex justify-between items-center">
                     <h1 class="text-2xl sm:text-5xl font-bold">{{ $menu->name }}</h1>
@@ -54,7 +54,7 @@
         {{-- More foods --}}
         <div class="py-5 max-w-[20rem] sm:max-w-xl">
             <div class="mb-5">
-                <h1 class="text-xl font-bold">
+                <h1 class="text-xl font-bold dark:text-gray-400">
                     More Food
                 </h1>
             </div>

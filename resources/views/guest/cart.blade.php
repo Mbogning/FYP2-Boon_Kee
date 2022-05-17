@@ -24,7 +24,7 @@
                                 @endphp
                                 @if (!empty($cart) && $cart->isNotEmpty())
                                     @foreach ($cart as $key => $item)
-                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 grid sm:table-row grid-cols-3"
+                                        <tr class="bg-white border-b dark:bg-zinc-700 dark:border-gray-700 grid sm:table-row grid-cols-3"
                                             data-menuid="{{ $item->menu_id }}">
                                             <td class="px-6 py-5 font-medium text-gray-900 dark:text-white">
                                                 <img src="{{ $menu[$item->menu_id]['img'] }}" alt=""
@@ -91,7 +91,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="flex justify-end p-5">
-                            <form action="{{ route('cart') }}">
+                            <form action="{{ route('cart') }}" method="POST">
                                 @csrf
                                 <button class="bg-amber-300 p-3 rounded-lg hover:shadow-md duration-150 hover:rounded-none">
                                     Proceed to checkout
