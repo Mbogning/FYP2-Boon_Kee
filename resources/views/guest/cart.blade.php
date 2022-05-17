@@ -24,7 +24,7 @@
                                 @endphp
                                 @if (!empty($cart) && $cart->isNotEmpty())
                                     @foreach ($cart as $key => $item)
-                                        <tr class="bg-white border-b dark:bg-zinc-700 dark:border-gray-700 grid sm:table-row grid-cols-3"
+                                        <tr class="bg-white border-b dark:bg-zinc-700 dark:border-gray-500 grid sm:table-row grid-cols-3"
                                             data-menuid="{{ $item->menu_id }}">
                                             <td class="px-6 py-5 font-medium text-gray-900 dark:text-white">
                                                 <img src="{{ $menu[$item->menu_id]['img'] }}" alt=""
@@ -76,7 +76,11 @@
                                     @endforeach
                                 @else
                                     <tr>
-                                        <td colspan="5" class="text-center">No Item in Cart</td>
+                                        <td colspan="5" class="text-center">
+                                            <div class="p-5 dark:text-white">
+                                                No Item in Cart 
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endif
 
@@ -85,8 +89,8 @@
                     </div>
                     <div class="mt-5 border-t">
                         <div class="flex justify-between p-5">
-                            <div>Total:</div>
-                            <div id="subtotal" class=" font-bold"></div>
+                            <div class="dark:text-white">Total:</div>
+                            <div id="subtotal" class="dark:text-white font-bold"></div>
                         </div>
                     </div>
                     <div class="mt-5">

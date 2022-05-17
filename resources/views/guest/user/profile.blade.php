@@ -84,7 +84,8 @@
                                 </div>
                             </div>
                             <div class="flex mt-10 justify-center">
-                                <button type="submit" class="mr-3 p-1 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
+                                <button type="submit"
+                                    class="mr-3 p-1 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
                                     Save
                                 </button>
                                 <a href="{{ route('welcome') }}"
@@ -94,7 +95,8 @@
                                 <div class="block sm:hidden">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
-                                        <button type="submit" class="p-1 sm:px-5 sm:py-2.5 bg-red-400 text-white rounded-lg">
+                                        <button type="submit"
+                                            class="p-1 sm:px-5 sm:py-2.5 bg-red-400 text-white rounded-lg">
                                             Log Out
                                         </button>
                                     </form>
@@ -108,13 +110,52 @@
                             <h1 class="underline font-bold text-2xl">
                                 Reservation History
                             </h1>
-                            <div class="mb-5">
+                            <div class="mb-5 py-5">
+                                {{--  --}}
+                                <div class="p-5 bg-white dark:bg-zinc-700 rounded-md shadow-md dark:text-white">
+                                    <div class="flex justify-between border-b p-2">
+                                        <div class="font-bold">Order#123123</div>
+                                        <div><a href="">View Detail > </a></div>
+                                    </div>
+                                    <div class="p-2">
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <div class="font-bold">Order Date</div>
+                                                <div>4 January 2022 11:11AM</div>
+                                            </div>
+                                            <div>
+                                                <div class="font-bold">Recipient</div>
+                                                <div>IZ</div>
+                                            </div>
+                                        </div>
+                                        <div class="grid sm:grid-cols-2 mt-5">
+                                            <div class="flex">
+                                                <div class="mr-2">
+                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
+                                                        width="100" alt="">
+                                                </div>
+                                                <div>
+                                                    <div class="font-bold">Mooncake</div>
+                                                    <div class="font-bold">RM 111</div>
+                                                    <div>X 1</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{--  --}}
                                 @if ($reservation_history)
                                     @foreach ($reservation_history as $key => $reservation)
-                                    <div class="">
-                                        
-                                    </div>
+                                        <div class="">
+
+                                        </div>
                                     @endforeach
+                                @else
+                                    <div class="p-5 bg-white dark:bg-zinc-700 rounded-md shadow-md dark:text-white">
+                                        <div>
+                                            Go Order Some Food.
+                                        </div>
+                                    </div>
                                 @endif
                             </div>
                         </div>
