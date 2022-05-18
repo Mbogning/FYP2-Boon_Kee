@@ -17,7 +17,7 @@
                                     <th class="px-6 py-3 text-center">Price</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody">
                                 @php
                                     $a = 3;
                                     $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
@@ -78,7 +78,7 @@
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div class="p-5 dark:text-white">
-                                                No Item in Cart 
+                                                No Item in Cart
                                             </div>
                                         </td>
                                     </tr>
@@ -98,7 +98,8 @@
                             <form action="{{ route('cart') }}" method="POST">
                                 @csrf
                                 <input type="hidden" name="total_sum" id="total_sum_input">
-                                <button class="bg-amber-300 p-3 rounded-lg hover:shadow-md duration-150 hover:rounded-none">
+                                <button class="bg-amber-300 p-3 rounded-lg hover:shadow-md duration-150 hover:rounded-none"
+                                    id="proceed_btn">
                                     Proceed to checkout
                                 </button>
                             </form>
@@ -112,9 +113,26 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            let proceed_btn = $("#proceed_btn");
+
             calculate_sum_price()
             calculate_grandtotal()
+            proceed_btn.hide()
+
+            disable_proceed_btn()
         })
+
+        function disable_proceed_btn() {
+            let get_cart_item = $('[data-menuid]').map((_, e) => e).get();
+            let proceed_btn = $("#proceed_btn");
+            console.log('item ' + get_cart_item);
+
+            if (get_cart_item.length > 0) {
+                proceed_btn.show()
+            } else {
+                proceed_btn.hide()
+            }
+        }
 
         $(document).on('click', 'button[data-action="increment"]', function() {
             let value = $(this).parent().find('input[type="number"]').val();
@@ -151,6 +169,8 @@
 
             update_cart(menu_id, value)
             calculate_grandtotal()
+            disable_proceed_btn()
+
         })
 
         $(document).on('click', '.remove_cart_btn', function() {
@@ -161,6 +181,7 @@
                 let menu_id = $(this).parent().parent().data('menuid');
                 update_cart(menu_id, 0)
                 calculate_grandtotal()
+                disable_proceed_btn()
             }
         })
 
