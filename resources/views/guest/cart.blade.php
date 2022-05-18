@@ -97,6 +97,7 @@
                         <div class="flex justify-end p-5">
                             <form action="{{ route('cart') }}" method="POST">
                                 @csrf
+                                <input type="hidden" name="total_sum" id="total_sum_input">
                                 <button class="bg-amber-300 p-3 rounded-lg hover:shadow-md duration-150 hover:rounded-none">
                                     Proceed to checkout
                                 </button>
@@ -186,7 +187,8 @@
                 data: {
                     "_token": "{{ csrf_token() }}",
                     "menu_id": menu_id,
-                    "quantity": value
+                    "quantity": value,
+                    "total_sum": $('#total_sum_input').val()
                 },
                 success: (s) => {
                     console.log(s);
@@ -204,6 +206,7 @@
                 return p + (parseFloat(c) || 0);
             }, 0);
             $('#subtotal').html('RM ' + price.toFixed(2));
+            $('#total_sum_input').val(price.toFixed(2));
         }
     </script>
 @endsection

@@ -50,6 +50,9 @@
                                         case 'Pending':
                                             $status = '<span class="text-xs text-white bg-amber-400 py-1 px-2 rounded-md">' . $reservation->reservation_status . '</span>';
                                             break;
+                                        case 'Paid':
+                                            $status = '<span class="text-xs text-white bg-teal-400 py-1 px-2 rounded-md">' . $reservation->reservation_status . '</span>';
+                                            break;
                                         case 'Arrived':
                                             $status = '<span class="text-xs text-white bg-blue-500 py-1 px-2 rounded-md">' . $reservation->reservation_status . '</span>';
                                             break;

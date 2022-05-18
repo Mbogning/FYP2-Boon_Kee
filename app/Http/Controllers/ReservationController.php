@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Menus;
 use App\Models\Orders;
 use App\Models\Reservation;
+use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+
+use function PHPUnit\Framework\isEmpty;
 
 class ReservationController extends Controller
 {
@@ -173,7 +177,7 @@ class ReservationController extends Controller
             'title' => 'Edit',
             'submit' => route('reservation_edit', $id),
             'reservation' => $reservation,
-            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
+            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
         ])->withErrors($validation);
     }
 
@@ -232,7 +236,7 @@ class ReservationController extends Controller
             'submit' => route('reservation_update', $id),
             'reservation' => $reservation,
             'menu_img' => $menu_img,
-            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
+            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
         ])->withErrors($validation);
     }
 
@@ -258,8 +262,6 @@ class ReservationController extends Controller
     }
 
     // TODO Customer Reservation
-    public function add_reservation_cus(Request $request)
-    { }
 
     public function ajax_add_to_cart(Request $request)
     {
@@ -321,6 +323,11 @@ class ReservationController extends Controller
             $update_order = Orders::find($orders->id);
 
             if ($quantity > 0) {
+                $update_reservation = Reservation::find($reservation->id);
+                $update_reservation->update([
+                    'reservation_total_amount' => $request->input('total_sum'),
+                    'updated_at' => now()
+                ]);
                 $update_order->update([
                     'order_quantity' => $quantity,
                     'order_price' => $menu->price * $quantity,
@@ -329,6 +336,115 @@ class ReservationController extends Controller
             } else {
                 Orders::query()->where('id', $orders->id)->delete();
             }
+
+            $check_order = Orders::get_all_orders_by_reservation_id($reservation->id);
+
+            if (count($check_order) == 0) {
+                Reservation::query('id', $reservation->id)->update([
+                    'reservation_status' => 'Cancelled',
+                    'updated_at' => now()
+                ]);
+            }
         }
+    }
+
+    public function customer_checkout(Request $request)
+    {
+        $user = auth()->user();
+        $check_cart = Reservation::get_latest_pending_reservation_by_customer($user->id);
+        $get_time = Settings::get_setting_by_slug('operation-time');
+        // dd($check_cart);
+        if (!$check_cart) {
+            Session::flash('error', 'No item in cart. Please add some item before checkout.');
+            return redirect()->route('cart');
+        }
+
+        if ($request->isMethod('post')) {
+            $reservation = Reservation::find($check_cart->id);
+            $reservation->update([
+                'reservation_total_guest' => $request->input('guest_number'),
+                'reservation_date' => $request->input('selected_date'),
+                'reservation_time' => $request->input('selected_time'),
+                'reservation_remarks' => $request->input('reservation_remarks')
+            ]);
+            return redirect()->route('confirmation', ['reservation' => md5($reservation->id . '' . env('APP_ENCRYPT'))]);
+        }
+
+        return view('guest.reservation.checkout', [
+            'customer' => $user,
+            'times' => $get_time,
+            'check_cart' => $check_cart,
+            'submit' => route('checkout')
+        ]);
+    }
+
+    public function reservation_confirmation(Request $request)
+    {
+        $get_reservation_id = $request->get('reservation');
+        $validator = null;
+
+        if (!$get_reservation_id) {
+            Session::flash('error', 'Please create new reservation before checkout.');
+            return redirect()->route('cart');
+        }
+
+        $check_reservation = Reservation::get_latest_pending_reservation_by_customer(auth()->user()->id);
+
+        if (!$check_reservation) {
+            Session::flash('error', 'Please create new reservation before checkout.');
+            return redirect()->route('cart');
+        }
+
+        if (md5($check_reservation->id . '' . env('APP_ENCRYPT')) != $get_reservation_id) {
+            Session::flash('error', 'This reservation has been completed or expired. Create another reservation.');
+            return redirect()->route('cart');
+        }
+
+        $reservation = Reservation::find($check_reservation->id);
+
+        if ($request->isMethod('post')) {
+
+            $validator = Validator::make($request->all(), [
+                'reservation_payment' => 'required'
+            ]);
+
+            if (!$validator->fails()) {
+
+                $reservation->update([
+                    'reservation_status' => 'Paid',
+                    'updated_at' => now()
+                ]);
+
+                Session::flash('success', 'Successfully created your reservation, Please arrive on the selected data & time. Thank you. ');
+                return redirect()->route('successful_page');
+            }
+
+            $reservation = (object) $request->all();
+        }
+
+        return view('guest.reservation.confirmation', [
+            'reservation_id' => $get_reservation_id,
+            'customer' => auth()->user(),
+            'reservation' => $reservation,
+            'get_menu_imgs' => Menus::get_all_menu_img()
+        ])->withErrors($validator);
+    }
+
+    public function reservation_history_detail(Request $request, $id)
+    {
+        $customer = auth()->user();
+        $check_reservation = Reservation::check_reservation_from_customer($id, $customer->id);
+
+        if (!$check_reservation) {
+            Session::flash('error', 'Invalid reservation history detail.');
+            return redirect()->route('welcome');
+        }
+
+        $reservation = Reservation::find($check_reservation->id);
+
+        return view('guest.reservation.reservation_history', [
+            'reservation' => $reservation,
+            'get_menu_imgs' => Menus::get_all_menu_img()
+        ]);
     }
 }

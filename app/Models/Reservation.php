@@ -16,13 +16,15 @@ class Reservation extends Model
         'reservation_status',
         'reservation_total_amount',
         'reservation_total_guest',
-        'reservation_remarks'
+        'reservation_remarks',
+        'reservation_payment_slip'
     ];
 
     public static function get_records($search)
     {
         $query = Reservation::query();
         $query->where('reservation_status', '!=', 'Deleted');
+        $query->orderBy('created_at', 'desc');
         $result = $query->paginate(15);
         return $result;
     }
@@ -33,7 +35,8 @@ class Reservation extends Model
         $customer = auth()->user();
         $query = Reservation::query();
         $query->where('customer_id', $customer->id);
-        $result = $query->paginate(10);
+        $query->whereNotIn('reservation_status', ['Deleted', 'Cancelled']);
+        $result = $query->latest()->get();
         return $result;
     }
 
@@ -63,6 +66,16 @@ class Reservation extends Model
 
             return $cart;
         }
+    }
+
+    public static function check_reservation_from_customer($reservation_id, $customer_id)
+    {
+        $query = Reservation::query();
+        $query->where('id', $reservation_id);
+        $query->where('customer_id', $customer_id);
+        $query->whereNotIn('reservation_status', ['Pending', 'Deleted', 'Cancelled']);
+        $result = $query->first();
+        return $result;
     }
 
     // ? Relations

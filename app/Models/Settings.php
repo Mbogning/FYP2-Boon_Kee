@@ -31,4 +31,12 @@ class Settings extends Model
         $result = $query->paginate(15);
         return $result;
     }
+
+    public static function get_setting_by_slug($slug)
+    {
+        $query = Settings::query();
+        $query->where('setting_slug', $slug);
+        $result = $query->first();
+        return $result;
+    }
 }

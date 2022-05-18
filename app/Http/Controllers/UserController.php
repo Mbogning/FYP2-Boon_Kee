@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Menus;
 use App\Models\Reservation;
 use App\Models\User;
 use App\Models\WorkSchedule;
@@ -347,7 +348,8 @@ class UserController extends Controller
         return view('guest.user.profile', [
             'user' => $user,
             'gender' => ['male' => 'Male', 'female' => 'Female'],
-            'reservation_history' => Reservation::reservation_history()
+            'reservation_history' => Reservation::reservation_history(),
+            'get_menu_imgs' => Menus::get_all_menu_img()
         ])->withErrors($validate);
     }
 }

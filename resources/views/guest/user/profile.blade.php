@@ -14,7 +14,7 @@
 @endsection
 @section('content')
     <div class="sm:grid sm:grid-cols-4 min-h-screen">
-        <div class="col-span-1 bg-slate-500">
+        <div class="col-span-1 bg-yellow-300 dark:bg-zinc-500">
             <div class="pt-[5.75rem]">
                 <div class="py-5 px-10 text-center grid">
                     <a class="bg-white px-5 py-2.5 mb-5 rounded-md shadow-md text-yellow-600" href="javascript:void(0);"
@@ -29,10 +29,10 @@
             </div>
         </div>
 
-        <div class="col-span-3 bg-yellow-200 min-h-screen">
+        <div class="col-span-3 bg-yellow-200 dark:bg-zinc-400 min-h-screen">
             <div class="sm:pt-[5.75rem]">
                 <div class="p-5">
-                    <div class="h-full w-ful px-10 pb-10 sm:p-10 rounded-xl shadow-lg tab active bg-white/60 backdrop-blur-md animate__animated animate__backInUp"
+                    <div class="h-full w-ful px-5 sm:px-10 pb-10 sm:p-10 rounded-xl shadow-lg tab active bg-white/60 backdrop-blur-md animate__animated animate__backInUp"
                         id="profile">
                         <div class="mx-auto">
                             <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_fuugfjlw.json"
@@ -85,18 +85,18 @@
                             </div>
                             <div class="flex mt-10 justify-center">
                                 <button type="submit"
-                                    class="mr-3 p-1 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
+                                    class="mr-3 p-2 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
                                     Save
                                 </button>
                                 <a href="{{ route('welcome') }}"
-                                    class="p-1 sm:px-5 sm:py-2.5 bg-slate-700 text-white rounded-lg mr-3">
+                                    class="p-2 sm:px-5 sm:py-2.5 bg-slate-700 text-white rounded-lg mr-3">
                                     Cancel
                                 </a>
                                 <div class="block sm:hidden">
                                     <form method="POST" action="{{ route('logout') }}">
                                         @csrf
                                         <button type="submit"
-                                            class="p-1 sm:px-5 sm:py-2.5 bg-red-400 text-white rounded-lg">
+                                            class="p-2 sm:px-5 sm:py-2.5 bg-red-400 text-white rounded-lg">
                                             Log Out
                                         </button>
                                     </form>
@@ -105,49 +105,60 @@
                         </form>
                     </div>
                     <div id="order-history"
-                        class="bg-white/60 backdrop-blur-md h-full w-ful p-10 rounded-xl shadow-lg tab animate__animated animate__backInUp">
+                        class="bg-white/60 backdrop-blur-md h-full w-ful p-5 sm:p-10 rounded-xl shadow-lg tab animate__animated animate__backInUp">
                         <div class="mb-5">
                             <h1 class="underline font-bold text-2xl">
                                 Reservation History
                             </h1>
                             <div class="mb-5 py-5">
-                                {{--  --}}
-                                <div class="p-5 bg-white dark:bg-zinc-700 rounded-md shadow-md dark:text-white">
-                                    <div class="flex justify-between border-b p-2">
-                                        <div class="font-bold">Order#123123</div>
-                                        <div><a href="">View Detail > </a></div>
-                                    </div>
-                                    <div class="p-2">
-                                        <div class="flex justify-between">
-                                            <div>
-                                                <div class="font-bold">Order Date</div>
-                                                <div>4 January 2022 11:11AM</div>
-                                            </div>
-                                            <div>
-                                                <div class="font-bold">Recipient</div>
-                                                <div>IZ</div>
-                                            </div>
-                                        </div>
-                                        <div class="grid sm:grid-cols-2 mt-5">
-                                            <div class="flex">
-                                                <div class="mr-2">
-                                                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg"
-                                                        width="100" alt="">
-                                                </div>
-                                                <div>
-                                                    <div class="font-bold">Mooncake</div>
-                                                    <div class="font-bold">RM 111</div>
-                                                    <div>X 1</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                {{--  --}}
+
                                 @if ($reservation_history)
                                     @foreach ($reservation_history as $key => $reservation)
-                                        <div class="">
-
+                                        <div
+                                            class="p-5 bg-white dark:bg-zinc-700 rounded-md shadow-md dark:text-white mb-3">
+                                            <div class="flex justify-between border-b p-2">
+                                                <div class="font-bold">Order #{{ $reservation->id }}</div>
+                                                <div class="">
+                                                    <a class="flex items-center"
+                                                        href="{{ route('reservation_history_detail', $reservation->id) }}">View
+                                                        Detail <i class='bx bx-chevron-right'></i> </a>
+                                                </div>
+                                            </div>
+                                            <div class="p-2">
+                                                <div class="flex justify-between">
+                                                    <div>
+                                                        <div class="font-bold">Order Date</div>
+                                                        <div>
+                                                            {{ date('d F Y', strtotime($reservation->reservation_date)) }}
+                                                            {{ date('g:i A', strtotime($reservation->reservation_time)) }}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div class="font-bold">Recipient</div>
+                                                        <div>{{ $reservation->customer->name }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="grid sm:grid-cols-2 gap-6 mt-5">
+                                                    @php
+                                                        $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+                                                    @endphp
+                                                    @foreach ($reservation->order as $order)
+                                                        <div class="sm:flex">
+                                                            <div class="mr-2 pb-3">
+                                                                <img src="{{ $get_menu_imgs[$order->menu->slug] ?? $url }}"
+                                                                    class=" rounded-md w-full sm:w-80" alt="">
+                                                            </div>
+                                                            <div class="flex justify-between sm:block ">
+                                                                <div class="font-bold text-lg">{{ $order->menu->name }}
+                                                                </div>
+                                                                <div class="">RM
+                                                                    {{ number_format($order->order_price, 2) }}</div>
+                                                                <div>X {{ $order->order_quantity }}</div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
                                         </div>
                                     @endforeach
                                 @else

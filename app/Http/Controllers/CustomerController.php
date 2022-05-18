@@ -35,7 +35,12 @@ class CustomerController extends Controller
         }
 
         if ($request->isMethod('post')) {
-            return redirect()->route('');
+            $update_reservation = Reservation::find($reservation->id);
+            $update_reservation->update([
+                'reservation_total_amount' => $request->input('total_sum'),
+                'updated_at' => now()
+            ]);
+            return redirect()->route('checkout');
         }
 
         return view('guest.cart', [

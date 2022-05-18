@@ -4,6 +4,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenusTypeController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPermissionController;
 use App\Http\Controllers\UserRolesController;
@@ -63,6 +64,11 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
         Route::match(['get', 'post'], 'admin/reservation/add', [ReservationController::class, 'add'])->name('reservation_add');
         Route::match(['get', 'post'], 'admin/reservation/edit/{id}', [ReservationController::class, 'edit'])->name('reservation_edit');
         Route::match(['get', 'post'], 'admin/reservation/delete', [ReservationController::class, 'delete'])->name('reservation_delete');
+
+        //? Setting
+        Route::match(['get', 'post'], 'admin/setting/listing', [SettingController::class, 'listing'])->name('setting_listing');
+        Route::match(['get', 'post'], 'admin/setting/add', [SettingController::class, 'add'])->name('setting_add');
+        Route::match(['get', 'post'], 'admin/setting/edit/{id}', [SettingController::class, 'edit'])->name('setting_edit');
     });
 
     // TODO ALL Roles except Customer 
@@ -88,6 +94,9 @@ Route::match(['get', 'post'], 'menus', [MenuController::class, 'view_menus'])->n
 Route::match(['get', 'post'], 'menus/{slug}', [MenuController::class, 'view_menu_info'])->name('view_menu_info');
 Route::match(['get', 'post'], 'about-us', [CustomerController::class, 'about_us'])->name('about_us');
 Route::match(['get', 'post'], 'cart', [CustomerController::class, 'cart'])->name('cart')->middleware(['auth', 'verified']);
+Route::match(['get', 'post'], 'checkout', [ReservationController::class, 'customer_checkout'])->name('checkout')->middleware(['auth', 'verified']);
+Route::match(['get', 'post'], 'confirmation', [ReservationController::class, 'reservation_confirmation'])->name('confirmation')->middleware(['auth', 'verified']);
+Route::match(['get', 'post'], 'reservation/history/{id}', [ReservationController::class, 'reservation_history_detail'])->name('reservation_history_detail')->middleware(['auth', 'verified']);
 
 
 // TODO AJAX Call
@@ -97,3 +106,7 @@ Route::match(['get', 'post'], 'ajax_get_menus', [MenuController::class, 'ajax_ge
 Route::match(['get', 'post'], 'ajax_get_menu_details', [MenuController::class, 'ajax_get_menu_details'])->name('ajax_get_menu_details');
 Route::match(['get', 'post'], 'ajax_add_to_cart', [ReservationController::class, 'ajax_add_to_cart'])->name('ajax_add_to_cart');
 Route::match(['get', 'post'], 'ajax_update_cart', [ReservationController::class, 'ajax_update_cart'])->name('ajax_update_cart');
+
+Route::get('/successful', function () {
+    return view('guest.reservation.successful');
+})->name('successful_page');
