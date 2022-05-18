@@ -123,6 +123,7 @@
                         @endif
                     </tbody>
                 </table>
+                {!! $reservations->links() !!}
             </div>
         </div>
         <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="user-menu-buttoe" role="dialog" aria-modal="true"
