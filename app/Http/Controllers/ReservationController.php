@@ -8,12 +8,8 @@ use App\Models\Reservation;
 use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
-use function PHPUnit\Framework\isEmpty;
 
 class ReservationController extends Controller
 {
@@ -177,7 +173,8 @@ class ReservationController extends Controller
             'title' => 'Edit',
             'submit' => route('reservation_edit', $id),
             'reservation' => $reservation,
-            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
+            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted'],
+            'get_reservation_media' => Reservation::get_reservation_media($id)
         ])->withErrors($validation);
     }
 
@@ -405,7 +402,7 @@ class ReservationController extends Controller
         if ($request->isMethod('post')) {
 
             $validator = Validator::make($request->all(), [
-                'reservation_payment' => 'required'
+                'reservation_payment' => 'required|mimes:pdf'
             ]);
 
             if (!$validator->fails()) {
@@ -415,11 +412,21 @@ class ReservationController extends Controller
                     'updated_at' => now()
                 ]);
 
+                if ($request->file('reservation_payment')) {
+                    $file_name = $request->file('reservation_payment')->getClientOriginalName();
+                    $file = fopen($request->file('reservation_payment')->getPathname(), 'r');
+                    app('firebase.storage')->getBucket()->upload($file, ['name' => 'reservation/' . $reservation->id . '/' . $file_name]);
+                    $reservation->update([
+                        'reservation_payment_slip' => $file_name,
+                        'updated_at' => now()
+                    ]);
+                }
+
                 Session::flash('success', 'Successfully created your reservation, Please arrive on the selected data & time. Thank you. ');
                 return redirect()->route('successful_page');
             }
 
-            $reservation = (object) $request->all();
+            $reservation = (object) $reservation;
         }
 
         return view('guest.reservation.confirmation', [
@@ -444,7 +451,8 @@ class ReservationController extends Controller
 
         return view('guest.reservation.reservation_history', [
             'reservation' => $reservation,
-            'get_menu_imgs' => Menus::get_all_menu_img()
+            'get_menu_imgs' => Menus::get_all_menu_img(),
+            'get_reservation_media' => Reservation::get_reservation_media($id)
         ]);
     }
 }

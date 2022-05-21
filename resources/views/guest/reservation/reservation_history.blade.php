@@ -56,7 +56,9 @@
                                 </p>
                             </div>
                             <div>
-
+                                <h1 class="font-bold text-sm sm:text-xl dark:text-white">Remarks</h1>
+                                <p class="text-xs sm:text-sm dark:text-white">{{ $reservation->reservation_remarks ?? '-' }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -82,6 +84,14 @@
                                     </div>
                                 </div>
                             @endforeach
+                        </div>
+                    </div>
+                    <div class="my-5">
+                        <div class="p-2 grid dark:text-white">
+                            <label for="" class="text-xl font-bold">Payment Slip</label>
+                            <a href="{{ $get_reservation_media }}" target="_blank" class="underline">
+                                View Payment
+                            </a>
                         </div>
                     </div>
                     <div class="flex justify-between">

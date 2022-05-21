@@ -166,6 +166,12 @@
                         </div>
                     </div>
                 </div>
+                @if (@$reservation->reservation_payment_slip)
+                    <div class="grid bg-white shadow-lg rounded-lg p-8 mt-5">
+                        <label for="" class="font-bold text-2xl">Payment Slip</label>
+                        <a href="{{ $get_reservation_media }}" class="mt-5" target="_blank">View Payment</a>
+                    </div>
+                @endif
                 <div class="grid gap-10 bg-white shadow-lg rounded-lg p-8 mt-5">
                     <div class="mb-3">
                         <button class="px-3 py-2.5 bg-blue-600 text-white rounded-lg" type="submit">Submit</button>

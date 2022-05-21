@@ -7,7 +7,16 @@
     <div class="min-h-screen">
         <div class="p-5 sm:p-10 min-h-screen">
             <div class="sm:p-20 grid gap-10">
-                <form action="" method="post">
+                @if ($errors->any())
+                    <div class="py-5">
+                        @foreach ($errors->all() as $err)
+                            <div class="bg-red-300 text-red-700 py-3 px-5 rounded-lg">
+                                {{ $err }}
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
+                <form action="" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="grid gap-10">
                         <div class="flex justify-between">
@@ -38,31 +47,33 @@
                 <div class="grid bg-white dark:bg-zinc-700 rounded-lg shadow-md p-3 sm:p-10 dark:text-white">
                     {{-- reservation info --}}
                     <div class="grid sm:grid-cols-2">
-                        <div>Date: {{ $reservation->reservation_date }}</div>
-                        <div>Time: {{ date('g:i A', strtotime($reservation->reservation_time)) }}</div>
-                        <div>Total Guest: {{ $reservation->reservation_total_guest }}</div>
-                        <div>Total Amount: RM {{ $reservation->reservation_total_amount }}</div>
+                        <div>Date: {{ @$reservation->reservation_date }}</div>
+                        <div>Time: {{ date('g:i A', strtotime(@$reservation->reservation_time)) }}</div>
+                        <div>Total Guest: {{ @$reservation->reservation_total_guest }}</div>
+                        <div>Total Amount: RM {{ @$reservation->reservation_total_amount }}</div>
                     </div>
                     {{-- orders --}}
                     <div class="mt-3 border-t">
                         <div class="font-bold sm:text-xl mt-3 dark:text-white">Orders </div>
                         <div class="mt-3 grid sm:grid-cols-2 gap-5">
-                            @foreach ($reservation->order as $order)
-                                @php
-                                    $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
-                                @endphp
-                                <div class="">
-                                    <div class="shadow-md">
-                                        <img src="{{ $get_menu_imgs[$order->menu->slug] ?? $url }}" alt=""
-                                            class="rounded-lg">
+                            @if (@$reservation->order)
+                                @foreach ($reservation->order as $order)
+                                    @php
+                                        $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+                                    @endphp
+                                    <div class="">
+                                        <div class="shadow-md">
+                                            <img src="{{ $get_menu_imgs[$order->menu->slug] ?? $url }}" alt=""
+                                                class="rounded-lg">
+                                        </div>
+                                        <div class="mt-3 text-center">
+                                            <h3 class="text-xl font-bold">{{ $order->menu->name }} x
+                                                {{ $order->order_quantity }}</h3>
+                                            <p>RM {{ number_format($order->order_price, 2) }}</p>
+                                        </div>
                                     </div>
-                                    <div class="mt-3 text-center">
-                                        <h3 class="text-xl font-bold">{{ $order->menu->name }} x
-                                            {{ $order->order_quantity }}</h3>
-                                        <p>RM {{ number_format($order->order_price, 2) }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

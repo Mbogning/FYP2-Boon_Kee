@@ -35,7 +35,7 @@ class Reservation extends Model
         $customer = auth()->user();
         $query = Reservation::query();
         $query->where('customer_id', $customer->id);
-        $query->whereNotIn('reservation_status', ['Deleted', 'Cancelled']);
+        $query->whereNotIn('reservation_status', ['Pending', 'Deleted', 'Cancelled']);
         $result = $query->latest()->get();
         return $result;
     }
@@ -75,6 +75,32 @@ class Reservation extends Model
         $query->where('customer_id', $customer_id);
         $query->whereNotIn('reservation_status', ['Pending', 'Deleted', 'Cancelled']);
         $result = $query->first();
+        return $result;
+    }
+
+    public static function get_reservation_media($reservation_id)
+    {
+        $result = null;
+        $query = Reservation::query()->where('id', $reservation_id)->first();
+        if ($query->reservation_payment_slip) {
+            $img = app('firebase.storage')->getBucket()->object('reservation/' . $query->id . '/' . $query->reservation_payment_slip);
+            $expiresAt = new \DateTime('tomorrow');
+            $result = $img->signedUrl($expiresAt);
+        }
+        return $result;
+    }
+
+    public static function get_all_reservation_media()
+    {
+        $result = [];
+        $query = Reservation::query()->whereIn('reservation_status', ['Paid', 'Arrived', 'Completed'])->get();
+        if ($query) {
+            foreach ($query as $key => $value) {
+                $img = app('firebase.storage')->getBucket()->object('reservation/' . $value->id . '/' . $value->reservation_payment_slip);
+                $expiresAt = new \DateTime('tomorrow');
+                $result = $img->signedUrl($expiresAt);
+            }
+        }
         return $result;
     }
 
