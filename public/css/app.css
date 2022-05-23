@@ -951,6 +951,9 @@ select {
 .max-w-\[5ch\] {
   max-width: 5ch;
 }
+.max-w-full {
+  max-width: 100%;
+}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1738,10 +1741,6 @@ select {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
 }
-.text-red-900 {
-  --tw-text-opacity: 1;
-  color: rgb(127 29 29 / var(--tw-text-opacity));
-}
 .text-yellow-500 {
   --tw-text-opacity: 1;
   color: rgb(234 179 8 / var(--tw-text-opacity));
@@ -1894,6 +1893,12 @@ select {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
+}
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
 .file\:mr-4::-webkit-file-upload-button {
   margin-right: 1rem;

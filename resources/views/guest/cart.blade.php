@@ -39,7 +39,7 @@
                                                 </a>
                                                 <br>
                                                 <span
-                                                    class="text-xs overflow-hidden w-[20rem] max-w-[5ch] sm:max-w-full sm:line-clamp-1 ">
+                                                    class="text-xs overflow-hidden w-[20rem] max-w-[5ch] max-w-full line-clamp-3 sm:line-clamp-1 ">
                                                     {!! $menu[$item->menu_id]['menu']->description !!}
                                                 </span>
                                                 <input type="hidden" class="menu_price"

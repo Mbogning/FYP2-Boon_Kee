@@ -14,7 +14,7 @@
 @endsection
 @section('content')
     <div class="sm:grid sm:grid-cols-4 min-h-screen">
-        <div class="col-span-1 bg-yellow-300 dark:bg-zinc-500">
+        <div class="col-span-1 bg-yellow-300 dark:bg-zinc-500 shadow-lg">
             <div class="pt-[5.75rem]">
                 <div class="py-5 px-10 text-center grid">
                     <a class="bg-white px-5 py-2.5 mb-5 rounded-md shadow-md text-yellow-600" href="javascript:void(0);"
@@ -85,11 +85,11 @@
                             </div>
                             <div class="flex mt-10 justify-center">
                                 <button type="submit"
-                                    class="mr-3 p-2 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 rounded-lg">
+                                    class="mr-3 p-2 sm:px-5 sm:py-2.5 bg-yellow-400 hover:bg-amber-300 hover:rounded-none rounded-lg">
                                     Save
                                 </button>
                                 <a href="{{ route('welcome') }}"
-                                    class="p-2 sm:px-5 sm:py-2.5 bg-slate-700 text-white rounded-lg mr-3">
+                                    class="p-2 sm:px-5 sm:py-2.5 bg-slate-700 text-white rounded-lg hover:rounded-none mr-3">
                                     Cancel
                                 </a>
                                 <div class="block sm:hidden">
@@ -114,10 +114,34 @@
 
                                 @if ($reservation_history)
                                     @foreach ($reservation_history as $key => $reservation)
+                                        @php
+                                            $status = '';
+                                            switch ($reservation->reservation_status) {
+                                                case 'Pending':
+                                                    $status = '<span class="text-xs text-white bg-amber-400 py-1 px-2 rounded-md ml-2">' . $reservation->reservation_status . '</span>';
+                                                    break;
+                                                case 'Paid':
+                                                    $status = '<span class="text-xs text-white bg-teal-400 py-1 px-2 rounded-md ml-2">' . $reservation->reservation_status . '</span>';
+                                                    break;
+                                                case 'Arrived':
+                                                    $status = '<span class="text-xs text-white bg-blue-500 py-1 px-2 rounded-md ml-2">' . $reservation->reservation_status . '</span>';
+                                                    break;
+                                                case 'Completed':
+                                                    $status = '<span class="text-xs text-white bg-green-600 py-1 px-2 rounded-md ml-2">' . $reservation->reservation_status . '</span>';
+                                                    break;
+                                                case 'Cancelled':
+                                                    $status = '<span class="text-xs text-white bg-red-400 py-1 px-2 rounded-md ml-2">' . $reservation->reservation_status . '</span>';
+                                                    break;
+                                                default:
+                                                    # code...
+                                                    break;
+                                            }
+                                        @endphp
                                         <div
                                             class="p-5 bg-white dark:bg-zinc-700 rounded-md shadow-md dark:text-white mb-3">
                                             <div class="flex justify-between border-b p-2">
-                                                <div class="font-bold">Order #{{ $reservation->id }}</div>
+                                                <div class="font-bold flex items-center">Order #{{ $reservation->id }}
+                                                    {!! $status !!}</div>
                                                 <div class="">
                                                     <a class="flex items-center"
                                                         href="{{ route('reservation_history_detail', $reservation->id) }}">View

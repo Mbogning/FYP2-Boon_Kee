@@ -2,7 +2,7 @@
 @section('title', 'Reservation History Detail')
 @section('content')
     <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen dark:bg-zinc-800">
-        <div class="mt-24 sm:mt-28">
+        <div class="mt-24 sm:mt-28 mb-10">
             <div class="px-3 py-5 rounded-lg shadow-lg sm:p-5 md:p-10 bg-white dark:bg-zinc-700">
                 <div class="grid">
                     <div class="text-center sm:text-left text-xl font-bold dark:text-white my-5">Reservation Details</div>

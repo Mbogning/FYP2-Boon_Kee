@@ -337,7 +337,7 @@ class ReservationController extends Controller
             $check_order = Orders::get_all_orders_by_reservation_id($reservation->id);
 
             if (count($check_order) == 0) {
-                Reservation::query('id', $reservation->id)->update([
+                Reservation::query()->where('id', $reservation->id)->update([
                     'reservation_status' => 'Cancelled',
                     'updated_at' => now()
                 ]);
