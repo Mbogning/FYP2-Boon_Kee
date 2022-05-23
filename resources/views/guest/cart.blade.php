@@ -1,5 +1,8 @@
 @extends('welcome')
 @section('title', 'Cart')
+@section('head')
+    <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
+@endsection
 @section('content')
     <div class="min-h-screen">
         <div class="p-5 sm:p-10 min-h-screen">
@@ -25,7 +28,8 @@
                                 @if (!empty($cart) && $cart->isNotEmpty())
                                     @foreach ($cart as $key => $item)
                                         <tr class="bg-white border-b dark:bg-zinc-700 dark:border-gray-500 grid sm:table-row grid-cols-3"
-                                            data-menuid="{{ $item->menu_id }}">
+                                            data-menuid="{{ $item->menu_id }}" data-aos="fade-up"
+                                            data-aos-anchor-placement="top-bottom">
                                             <td class="px-6 py-5 font-medium text-gray-900 dark:text-white">
                                                 <img src="{{ $menu[$item->menu_id]['img'] }}" alt=""
                                                     class="rounded-lg" width="200px">
@@ -39,7 +43,7 @@
                                                 </a>
                                                 <br>
                                                 <span
-                                                    class="text-xs overflow-hidden w-[20rem] max-w-[5ch] max-w-full line-clamp-3 sm:line-clamp-1 ">
+                                                    class="text-xs overflow-hidden w-[20rem] max-w-full line-clamp-3 sm:line-clamp-1 ">
                                                     {!! $menu[$item->menu_id]['menu']->description !!}
                                                 </span>
                                                 <input type="hidden" class="menu_price"
@@ -111,7 +115,9 @@
     </div>
 @endsection
 @section('script')
+    <script src="{{ asset('js/aos.js') }}"></script>
     <script>
+        AOS.init();
         $(document).ready(function() {
             let proceed_btn = $("#proceed_btn");
 

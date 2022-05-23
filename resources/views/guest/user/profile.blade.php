@@ -50,7 +50,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
                                 <div>
                                     <label for="" class="inline-block mb-2">Fullname: </label>
-                                    <input type="text" name="name" class="block rounded-md w-full p-3 neu-input border-0"
+                                    <input type="text" name="name" class="block rounded-md w-full p-3 border-0 bg-white/50"
                                         value="{{ $user->name }}">
                                 </div>
                                 <div>
@@ -60,12 +60,12 @@
                                 </div>
                                 <div>
                                     <label for="" class="inline-block mb-2">Phone Number: </label>
-                                    <input type="tel" name="phone" class="block rounded-md w-full border-0 neu-input"
+                                    <input type="tel" name="phone" class="block rounded-md w-full border-0 bg-white/50"
                                         value="{{ $user->phone }}">
                                 </div>
                                 <div>
                                     <label for="" class="inline-block mb-2">Birth of Date: </label>
-                                    <input type="date" name="bod" class="block rounded-md w-full border-0 neu-input"
+                                    <input type="date" name="bod" class="block rounded-md w-full border-0 bg-white/50"
                                         value="{{ $user->bod }}">
                                 </div>
                                 <div>

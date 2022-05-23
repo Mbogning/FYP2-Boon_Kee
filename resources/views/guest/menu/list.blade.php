@@ -1,6 +1,7 @@
 @extends('welcome')
 @section('title', 'Menus')
 @section('head')
+    <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
     <style>
 
     </style>
@@ -19,12 +20,12 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-5 sm:gap-10">
                         @foreach ($menus as $menu)
                             @if ($type->id == $menu->type)
-                                <div
-                                    class="relative max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-700 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg">
+                                <div class="relative max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-700 dark:border-gray-700 hover:scale-105 ease-in-out transition-all duration-200 hover:shadow-lg"
+                                    data-aos="fade-up" data-aos-anchor-placement="top-bottom" data-id="{{ $menu->id }}">
                                     <a href="{{ route('view_menu_info', $menu->slug) }}">
                                         <img class="rounded-t-lg" src="{{ @$imgs[$menu->slug] ?? $url }}" alt="" />
                                     </a>
-                                    <div class="relative p-5 pb-10">
+                                    <div class="relative p-5 mb-10">
                                         <a href="{{ route('view_menu_info', $menu->slug) }}">
                                             <h5
                                                 class="mb-2 text-md sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -65,7 +66,9 @@
     </div>
 @endsection
 @section('script')
+    <script src="{{ asset('js/aos.js') }}"></script>
     <script>
+        AOS.init();
         $(document).ready(function() {
 
         })
@@ -78,23 +81,23 @@
         function add_to_cart(menu_id) {
             @if (auth()->check())
                 $.ajax({
-                url: "{{ route('ajax_add_to_cart') }}",
-                method: "Post",
-                data: {
-                '_token': "{{ csrf_token() }}",
-                'menu_id': menu_id
-                },
-                success: (s) => {
-                $('button[data-id="' + menu_id + '"]').prop('disabled', true)
-                $('button[data-id="' + menu_id + '"]').find('.bx-cart-add').hide()
-                $('button[data-id="' + menu_id + '"]').find('.bx-check-circle').show()
-                },
-                error: (e) => {
-                console.log(e);
-                }
+                    url: "{{ route('ajax_add_to_cart') }}",
+                    method: "Post",
+                    data: {
+                        '_token': "{{ csrf_token() }}",
+                        'menu_id': menu_id
+                    },
+                    success: (s) => {
+                        $('button[data-id="' + menu_id + '"]').prop('disabled', true)
+                        $('button[data-id="' + menu_id + '"]').find('.bx-cart-add').hide()
+                        $('button[data-id="' + menu_id + '"]').find('.bx-check-circle').show()
+                    },
+                    error: (e) => {
+                        console.log(e);
+                    }
                 })
             @else
-                window.location.href="{{ route('login') }}"
+                window.location.href = "{{ route('login') }}"
             @endif
         }
     </script>
