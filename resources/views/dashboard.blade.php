@@ -1,5 +1,5 @@
 @extends('layouts.sidebar')
-@section('title')  
+@section('title')
     Dashboard
 @endsection
 @section('breadcrumb')
@@ -16,7 +16,10 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
+                    Welcome Back! {{ auth()->user()->name }}
+                </div>
+                <div class="p-6 bg-white">
+                    Role: <b>{{ auth()->user()->roles[0]->name }}</b>
                 </div>
             </div>
         </div>

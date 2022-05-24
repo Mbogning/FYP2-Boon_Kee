@@ -59,7 +59,7 @@
                             @if (@$reservation->order)
                                 @foreach ($reservation->order as $order)
                                     @php
-                                        $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+                                        $url = asset("images/NoFoodIMG.png");
                                     @endphp
                                     <div class="">
                                         <div class="shadow-md">

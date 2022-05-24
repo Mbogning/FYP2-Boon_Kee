@@ -5,7 +5,7 @@
 @endsection
 @section('content')
     @php
-    $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+    $url = asset("images/NoFoodIMG.png");
     @endphp
     <div class="grid px-5 sm:px-20 2xl:px-40 min-h-screen dark:bg-zinc-800">
         {{-- Hero --}}

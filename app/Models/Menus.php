@@ -112,7 +112,7 @@ class Menus extends Model
             $expiresAt = new \DateTime('tomorrow');
             $result = $img->signedUrl($expiresAt);
         } else {
-            $result = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+            $result = asset('images/NoFoodIMG.png');
         }
 
         return ['menu' => $menu, 'img' => $result];

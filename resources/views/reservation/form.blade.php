@@ -238,7 +238,7 @@
             },
         });
 
-        let order_count = 0;
+        let order_count = "{{ count($reservation->order) ?? 0 }}";
         let menu_id = null;
 
         $(document).ready(function() {
@@ -271,7 +271,7 @@
                     let order = "";
 
                     order +=
-                        "<tr><td class='px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap'>" +
+                        "<tr><td class='px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap text-center'>" +
                         order_count + "</td>";
                     order += "<td class='text-center'>" + s.name +
                         "<input type='hidden' name='menu_id[]' value='" + s.id + "' ></td>";

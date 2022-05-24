@@ -23,7 +23,7 @@
                             <tbody id="tbody">
                                 @php
                                     $a = 3;
-                                    $url = 'https://upload.wikimedia.org/wikipedia/commons/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg';
+                                    $url = asset("images/NoFoodIMG.png");
                                 @endphp
                                 @if (!empty($cart) && $cart->isNotEmpty())
                                     @foreach ($cart as $key => $item)

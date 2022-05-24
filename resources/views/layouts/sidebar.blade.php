@@ -158,18 +158,11 @@
                 @canany(['setting_listing', 'setting_manage'])
                     <li>
                         <a href="{{ route('setting_listing') }}" class="side-menu">
-                            <div class="side-menu__icon"> <i data-feather="box"></i> </div>
+                            <div class="side-menu__icon"> <i data-feather="settings"></i> </div>
                             <div class="side-menu__title"> Setting </div>
                         </a>
                     </li>
                 @endcanany
-
-                <li>
-                    <a href="index.html" class="side-menu">
-                        <div class="side-menu__icon"> <i data-feather="box"></i> </div>
-                        <div class="side-menu__title"> More </div>
-                    </a>
-                </li>
             </ul>
         </nav>
         <!-- END: Side Menu -->
