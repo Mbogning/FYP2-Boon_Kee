@@ -14,6 +14,7 @@ class Orders extends Model
         'menu_id',
         'order_quantity',
         'order_price',
+        'order_status'
     ];
 
     public static function get_all_order_by_reservation($reservation_id)

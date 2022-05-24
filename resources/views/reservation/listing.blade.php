@@ -103,10 +103,17 @@
                                                 View Payment
                                             </a>
                                         @else
-                                            <a href="{{ route('reservation_update', $reservation->id) }}"
-                                                class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
-                                                Edit
-                                            </a>
+                                            @role('Chef')
+                                                <a href="{{ route('order_update', $reservation->id) }}"
+                                                    class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                                    Edit
+                                                </a>
+                                            @else
+                                                <a href="{{ route('reservation_update', $reservation->id) }}"
+                                                    class="border border-amber-500 text-amber-500 hover:text-white hover:bg-amber-500 px-3 py-1.5 text-center text-xs font-medium rounded-md mr-2 mb-2">
+                                                    Edit
+                                                </a>
+                                            @endrole
                                         @endrole
                                         <button type="button" id="delete" aria-expanded="false" aria-haspopup="true"
                                             @click="open = !open" data-id="{{ $reservation->id }}"

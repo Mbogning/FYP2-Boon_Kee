@@ -65,6 +65,7 @@ class ReservationController extends Controller
                         'menu_id' => $menus[$i],
                         'order_quantity' => $quantities[$i],
                         'order_price' => $menu->price * $quantities[$i],
+                        'order_status' => 'ordered',
                         'created_at' => now(),
                         'updated_at' => now()
                     ]);
@@ -143,6 +144,7 @@ class ReservationController extends Controller
                             'menu_id' => $menus[$i],
                             'order_quantity' => $quantities[$i],
                             'order_price' => $menu->price * $quantities[$i],
+                            'order_status' => 'ordered',
                             'created_at' => now(),
                             'updated_at' => now()
                         ]);
@@ -233,7 +235,8 @@ class ReservationController extends Controller
             'submit' => route('reservation_update', $id),
             'reservation' => $reservation,
             'menu_img' => $menu_img,
-            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted']
+            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted'],
+            'order_status' => ['' => 'Please Select Staus', 'ordered' => 'Ordered', 'preparing' => 'Preparing', 'served' => 'Served']
         ])->withErrors($validation);
     }
 
@@ -255,6 +258,46 @@ class ReservationController extends Controller
         return view('reservation.view_payment', [
             'reservation' => $reservation,
             'menu_img' => $menu_img
+        ]);
+    }
+
+    public function update_order(Request $request, $id)
+    {
+        $reservation = Reservation::find($id);
+
+        if (!$reservation) {
+            Session::flash('error', 'Invalid Reservation');
+            return redirect()->route('reservation_listing');
+        }
+
+        $menu_img = [];
+
+        foreach ($reservation->order as $key => $order) {
+            $menu_img[$order->menu->id] = Menus::get_menu_img($order->menu->slug);
+        }
+
+        if ($request->isMethod('post')) {
+            $orders = $request->input('order_id');
+            if ($orders) {
+                for ($i = 0; $i < count($orders); $i++) {
+                    Orders::query()->where('id', $orders[$i])->update([
+                        'order_status' => $request->input('order_status')[$i],
+                        'updated_at' => now()
+                    ]);
+                }
+            }
+
+            Session::flash('success', 'Successfully updated order.');
+            return redirect()->route('reservation_listing');
+        }
+
+        return view('reservation.update', [
+            'title' => 'Edit',
+            'submit' => route('order_update', $id),
+            'reservation' => $reservation,
+            'menu_img' => $menu_img,
+            'reservation_status' => ['' => 'Please Select Status', 'Pending' => 'Pending', 'Paid' => 'Paid', 'Arrived' => 'Arrived', 'Cancelled' => 'Cancelled', 'Completed' => 'Completed', 'Deleted' => 'Deleted'],
+            'order_status' => ['' => 'Please Select Staus', 'ordered' => 'Ordered', 'preparing' => 'Preparing', 'served' => 'Served']
         ]);
     }
 

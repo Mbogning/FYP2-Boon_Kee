@@ -118,37 +118,65 @@
                 <div
                     class="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
                     <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="font-bold mb-10 text-2xl">Orders</div>
-                        <table>
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                <tr>
-                                    <th class="px-6 py-3"></th>
-                                    <th class="px-6 py-3">Name</th>
-                                    <th class="px-6 py-3">Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($reservation->order as $order)
-                                    <tr class="mb-3">
-                                        @if ($menu_img[$order->menu_id])
+                        <form action="{{ $submit }}" method="post">
+                            @csrf
+                            <div class="font-bold mb-10 text-2xl">Orders</div>
+                            <table>
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th class="px-6 py-3"></th>
+                                        <th class="px-6 py-3">Name</th>
+                                        <th class="px-6 py-3">Quantity</th>
+                                        @role('Chef')
+                                            <th class="px-6 py-3">Action</th>
+                                        @endrole
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($reservation->order as $order)
+                                        <tr class="mb-3">
+                                            <input type="hidden" name="order_id[]" value="{{ $order->id }}">
+                                            @if ($menu_img[$order->menu_id])
+                                                <td
+                                                    class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                    <img src="{{ $menu_img[$order->menu_id] }}" alt=""
+                                                        class="">
+                                                </td>
+                                            @else
+                                                <td class="text-center">No Image</td>
+                                            @endif
                                             <td
                                                 class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                                <img src="{{ $menu_img[$order->menu_id] }}" alt=""
-                                                    class="">
+                                                {{ $order->menu->name }}
                                             </td>
-                                        @else
-                                            <td class="text-center">No Image</td>
-                                        @endif
-                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            {{ $order->menu->name }}
-                                        </td>
-                                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                                            {{ $order->order_quantity }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                            <td
+                                                class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                                                {{ $order->order_quantity }}
+                                            </td>
+                                            @role('Chef')
+                                                <td>
+                                                    <select name="order_status[]" id=""
+                                                        class="block w-full text-sm rounded-lg border-gray-400 p-3">
+                                                        @foreach ($order_status as $ord_key => $ord_status)
+                                                            <option value="{{ $ord_key }}"
+                                                                @if (@$order->order_status == $ord_key) selected @endif>
+                                                                {{ $ord_status }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                            @endrole
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            @role('Chef')
+                                <div class="w-full flex justify-end">
+                                    <button class="px-3 py-2 bg-blue-600 text-white rounded-lg" type="submit">Submit</button>
+                                </div>
+                            @endrole
+                        </form>
                     </div>
                 </div>
             </div>

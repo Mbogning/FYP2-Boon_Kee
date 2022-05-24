@@ -11,7 +11,7 @@
             <div class="dropdown-box__content box bg-theme-38 dark:bg-dark-6 text-white">
                 <div class="p-4 border-b border-theme-40 dark:border-dark-3">
                     <div class="font-medium"><?php echo auth()->user()->name; ?></div>
-                    <div class="text-xs text-theme-41 dark:text-gray-600">JOB</div>
+                    <div class="text-xs text-theme-41 dark:text-gray-600">{!! auth()->user()->roles[0]->name !!}</div>
                 </div>
                 <div class="p-2">
                     <a href="{{ route('user_profile') }}"

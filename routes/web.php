@@ -81,6 +81,7 @@ Route::middleware(['role:Admin|Chef|Cashier|Waiter'])->group(function () {
     // TODO Chef or Waiter
     Route::middleware('role:Waiter|Chef')->group(function () {
         Route::match(['get', 'post'], 'admin/reservation/update/{id}', [ReservationController::class, 'update_status'])->name('reservation_update');
+        Route::match(['get', 'post'], 'admin/order/update/{id}', [ReservationController::class, 'update_order'])->name('order_update');
     });
 
     Route::middleware('role:Cashier')->group(function () {
