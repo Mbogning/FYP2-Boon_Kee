@@ -48,7 +48,19 @@ return [
              */
             'credentials' => [
                 // 'file' => resource_path('firebase/credential.json'),
-                'file' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+                // 'file' => env('FIREBASE_CREDENTIALS', env('GOOGLE_APPLICATION_CREDENTIALS')),
+                'file' => '{
+                    "type": "service_account",
+                    "project_id": "' . env('FIREBASE_PROJECT_ID') . '",
+                    "private_key_id": "' . env('FIREBASE_PRIVATE_KEY_ID') . '",
+                    "private_key": "' . env('FIREBASE_PRIVATE_KEY') . '",
+                    "client_email": "' . env('FIREBASE_CLIENT_EMAIL') . '",
+                    "client_id": "' . env('FIREBASE_CLIENT_ID') . '",
+                    "auth_uri": "' . env('FIREBASE_AUTH_URI') . '",
+                    "token_uri": "' . env('FIREBASE_TOKEN_URI') . '",
+                    "auth_provider_x509_cert_url": "' . env('FIREBASE_AUTH_PROVIDER_CERT_URL') . '",
+                    "client_x509_cert_url": "' . env('FIREBASE_CLIENT_CERT_URL') . '"
+                    }',
 
                 /*
                  * If you want to prevent the auto discovery of credentials, set the
